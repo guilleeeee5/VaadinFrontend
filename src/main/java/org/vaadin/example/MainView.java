@@ -15,6 +15,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 /**
@@ -90,6 +91,27 @@ public class MainView extends VerticalLayout{
         grid.addColumn(ZonaBasicaSalud::getFechaFinal).setHeader("Fecha final").setSortable(true);
 
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
+
+        grid.addItemClickListener(event -> System.out.println(event.getItem().toString()));
+        grid.addItemClickListener(event -> texto1.setValue(event.getItem().getCodigo_geometria()));
+        grid.addItemClickListener(event -> texto2.setValue(event.getItem().getZona_basica_salud()));
+        grid.addItemClickListener(event -> texto3.setValue(String.valueOf(event.getItem().getTasa_incidencia_acumulada_ultimos_14dias())));
+        grid.addItemClickListener(event -> texto4.setValue(String.valueOf(event.getItem().getTasa_incidencia_acumulada_total())));
+        grid.addItemClickListener(event -> texto5.setValue(String.valueOf(event.getItem().getCasos_confirmados_totales())));
+        grid.addItemClickListener(event -> texto6.setValue(String.valueOf(event.getItem().getCasos_confirmados_ultimos_14dias())));
+        grid.addItemClickListener(event -> texto7.setValue(event.getItem().getFecha_informe()));
+        grid.addItemClickListener(event -> texto8.setValue(String.valueOf(event.getItem().getFechaFinal())));
+        grid.addItemClickListener(event -> dialog.open());
+
+        try {
+            listaPacientes = DataService.getTodasPersonas(listaPacientes);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+        grid.setItems(listaPacientes);
+
+
         this.add(grid);
         this.setAlignItems(Alignment.CENTER);
        
