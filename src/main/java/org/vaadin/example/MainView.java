@@ -5,6 +5,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -77,6 +78,20 @@ public class MainView extends VerticalLayout{
 
         verticalLayout.add(horizontalLayout1, horizontalLayout2);
         dialog.add(verticalLayout);
+
+        Grid<ZonaBasicaSalud> grid = new Grid<>(ZonaBasicaSalud.class, false);
+        grid.addColumn(ZonaBasicaSalud::getCodigo_geometria).setHeader("Codigo geometria").setSortable(true);
+        grid.addColumn(ZonaBasicaSalud::getZona_basica_salud).setHeader("Zona basica salud").setSortable(true);
+        grid.addColumn(ZonaBasicaSalud::getTasa_incidencia_acumulada_ultimos_14dias).setHeader("Tasa incidencia 14 dias").setSortable(true);
+        grid.addColumn(ZonaBasicaSalud::getTasa_incidencia_acumulada_total).setHeader("Tasa incidencia total").setSortable(true);
+        grid.addColumn(ZonaBasicaSalud::getCasos_confirmados_totales).setHeader("Casos totales").setSortable(true);
+        grid.addColumn(ZonaBasicaSalud::getCasos_confirmados_ultimos_14dias).setHeader("Casos 14 dias").setSortable(true);
+        grid.addColumn(ZonaBasicaSalud::getFecha_informe).setHeader("Fecha informe").setSortable(true);
+        grid.addColumn(ZonaBasicaSalud::getFechaFinal).setHeader("Fecha final").setSortable(true);
+
+        grid.setSelectionMode(Grid.SelectionMode.SINGLE);
+        this.add(grid);
+        this.setAlignItems(Alignment.CENTER);
        
     }
 
