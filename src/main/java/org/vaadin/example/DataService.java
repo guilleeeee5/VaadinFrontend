@@ -42,5 +42,25 @@ public class DataService {
 
     @PutMapping("/envio")
     public static void enviarDatosActualizar(ZonaBasicaSalud zonaBasicaSalud) {
+        try {
+            URL url = new URL("http://localhost:8080/");
+            URLConnection con = url.openConnection();
+            HttpURLConnection http = (HttpURLConnection) con;
+            http.setRequestMethod("POST");
+            http.setDoOutput(true);
+            String dataAPasar = String.format("http://localhost:8080/codigo_geometria=%s&zona_basica_salud=%s&tasa_incidencia_acumulada_ultimos_14dias=%s&tasa_incidencia_acumulada_total=%s&casos_confirmados_totales=%s&casos_confirmados_ultimos_14dias=%s&fecha_informe=?", zonaBasicaSalud.getCodigo_geometria(), zonaBasicaSalud.getZona_basica_salud(), zonaBasicaSalud.getTasa_incidencia_acumulada_ultimos_14dias(), zonaBasicaSalud.getTasa_incidencia_acumulada_total(), zonaBasicaSalud.getCasos_confirmados_totales(), zonaBasicaSalud.getCasos_confirmados_ultimos_14dias(), zonaBasicaSalud.getFecha_informe());
+            System.out.println(dataAPasar);
+            try (OutputStream os = http.getOutputStream()) {
+                os.write(dataAPasar.getBytes(StandardCharsets.UTF_8));
+            }
+
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
     }
 }
