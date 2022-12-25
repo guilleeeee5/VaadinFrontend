@@ -41,7 +41,7 @@ public class DataService {
     }
 
 
-
+    @PutMapping
     public static void enviarDatosActualizar(ZonaBasicaSalud zonaBasicaSaludAntiguo, ZonaBasicaSalud zonaBasicaSaludNuevo, ArrayList<ZonaBasicaSalud> listaPacientes) {
             listaPacientes.add(zonaBasicaSaludAntiguo);
             listaPacientes.add(zonaBasicaSaludNuevo);

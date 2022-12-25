@@ -17,6 +17,7 @@ import com.vaadin.flow.server.PWA;
 
 import java.net.URISyntaxException;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -50,13 +51,15 @@ public class MainView extends VerticalLayout{
 
         ArrayList<ZonaBasicaSalud> listaPacientes = new ArrayList<>();
         ArrayList<ZonaBasicaSalud> finalListaPacientes = listaPacientes;
-        final ArrayList<ZonaBasicaSalud> ListaaPasar = new ArrayList<>();
         ZonaBasicaSalud antiguoDato = new ZonaBasicaSalud();
 
         Dialog dialog = new Dialog();
         dialog.setHeight("800");
         dialog.setWidth("300");
         dialog.getElement().setAttribute("aria-label", "Mostrar/editar Zonas");
+
+
+        String fechaCorrecta ="";
 
 
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -174,7 +177,7 @@ public class MainView extends VerticalLayout{
             public void onComponentEvent(ClickEvent<Button> event) {
                 ZonaBasicaSalud nuevodato;
                 try {
-                     nuevodato = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()), texto7.getValue());
+                     nuevodato = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()),  ZonaBasicaSalud.setFechaFinal2(texto7.getValue()));
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }

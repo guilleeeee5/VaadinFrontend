@@ -52,7 +52,7 @@ public class ZonaBasicaSalud {
         this.fecha_informe = fecha_informe;
     }
 
-    public String setFechaFinal(String fecha_informe) throws ParseException {
+    public static String setFechaFinal(String fecha_informe) throws ParseException {
         Date fecha_final;
         fecha_informe = fecha_informe.replace("/", "-");
         SimpleDateFormat Formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -64,6 +64,8 @@ public class ZonaBasicaSalud {
         return fechaSacar;
 
     }
+
+    
 
     public int getCasos_confirmados_ultimos_14dias() {
         return casos_confirmados_ultimos_14dias;
@@ -99,12 +101,6 @@ public class ZonaBasicaSalud {
 
     @Override
     public String toString() {
-        String fechafinal = null;
-        try {
-            fechafinal = this.setFechaFinal(fecha_informe);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
         return "{" +
                 "codigo_geometria:'" + codigo_geometria + '\n' +
                 ", zona_basica_salud: '" + zona_basica_salud + "\n" +
@@ -112,7 +108,7 @@ public class ZonaBasicaSalud {
                 ", tasa_incidencia_acumulada_total: " + tasa_incidencia_acumulada_total + "\n" +
                 ", casos_confirmados_totales: " + casos_confirmados_totales + "\n" +
                 ", casos_confirmados_ultimos_14dias: " + casos_confirmados_ultimos_14dias + "\n" +
-                ", fecha_informe: '" + fechafinal + '\n' +
+                ", fecha_informe: '" + fecha_informe + '\n' +
                 '}';
     }
 }
