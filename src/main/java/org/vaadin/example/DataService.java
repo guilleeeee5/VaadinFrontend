@@ -15,6 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class DataService {
@@ -40,8 +41,14 @@ public class DataService {
     }
 
 
-    @PutMapping("/envio")
-    public static void enviarDatosActualizar(ZonaBasicaSalud zonaBasicaSalud, ArrayList<ZonaBasicaSalud> listaPacientes) {
 
+    public static void enviarDatosActualizar(ZonaBasicaSalud zonaBasicaSaludAntiguo, ZonaBasicaSalud zonaBasicaSaludNuevo, ArrayList<ZonaBasicaSalud> listaPacientes) {
+            listaPacientes.add(zonaBasicaSaludAntiguo);
+            listaPacientes.add(zonaBasicaSaludNuevo);
+
+        for (ZonaBasicaSalud elementosLista: listaPacientes
+             ) {
+            System.out.println(elementosLista.toString());
+        }
     }
 }

@@ -2,25 +2,23 @@ package org.vaadin.example;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
-import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.ItemDoubleClickEvent;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.xml.crypto.Data;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * A sample Vaadin view class.
@@ -51,7 +49,10 @@ public class MainView extends VerticalLayout{
     public MainView() {
 
         ArrayList<ZonaBasicaSalud> listaPacientes = new ArrayList<>();
-        ZonaBasicaSalud elemetoAntiguo;
+        ArrayList<ZonaBasicaSalud> finalListaPacientes = listaPacientes;
+        final ArrayList<ZonaBasicaSalud> ListaaPasar = new ArrayList<>();
+        ZonaBasicaSalud antiguoDato = new ZonaBasicaSalud();
+
         Dialog dialog = new Dialog();
         dialog.setHeight("800");
         dialog.setWidth("300");
@@ -86,8 +87,7 @@ public class MainView extends VerticalLayout{
         TextField texto6 = new TextField();
         Label etiqueta7 = new Label("Fecha informe");
         TextField texto7 = new TextField();
-        Label etiqueta8 = new Label("Fecha final");
-        TextField texto8 = new TextField();
+
 
         Button boton = new Button("Actualizar");
         Button boton2 = new Button("Cancelar");
@@ -99,10 +99,9 @@ public class MainView extends VerticalLayout{
 
         horizontalLayout2.add(etiqueta4, texto4, etiqueta5, texto5, etiqueta6, texto6);
         horizontalLayout2.setAlignItems(Alignment.CENTER);
-
-        horizontalLayout3.add(etiqueta7, texto7, etiqueta8, texto8);
+        horizontalLayout3.add(etiqueta7, texto7);
         horizontalLayout3.setAlignItems(Alignment.CENTER);
-        horizontalLayout3.setSpacing(true);
+        horizontalLayout3.setSpacing(false);
         horizontalLayout3.setAlignSelf(Alignment.CENTER);
         horizontalLayout3.setWidth("100%");
 
@@ -116,6 +115,8 @@ public class MainView extends VerticalLayout{
         verticalLayout.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout4);
         dialog.add(verticalLayout);
 
+
+        // Generar la tabla con los campos arriba puestos.
         Grid<ZonaBasicaSalud> grid = new Grid<>(ZonaBasicaSalud.class, false);
         grid.addColumn(ZonaBasicaSalud::getCodigo_geometria).setHeader("Codigo geometria").setSortable(true);
         grid.addColumn(ZonaBasicaSalud::getZona_basica_salud).setHeader("Zona basica salud").setSortable(false);
@@ -124,22 +125,40 @@ public class MainView extends VerticalLayout{
         grid.addColumn(ZonaBasicaSalud::getCasos_confirmados_totales).setHeader("Casos totales").setSortable(false);
         grid.addColumn(ZonaBasicaSalud::getCasos_confirmados_ultimos_14dias).setHeader("Casos 14 dias").setSortable(false);
         grid.addColumn(ZonaBasicaSalud::getFecha_informe).setHeader("Fecha informe").setSortable(true);
-        grid.addColumn(ZonaBasicaSalud::getFechaFinal).setHeader("Fecha final").setSortable(false);
 
-
+        // Rellenar los modales con la informacion
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
-
-        grid.addItemDoubleClickListener(event ->  llamarAntiguoSeleccionado(event.getItem().getCodigo_geometria(), event.getItem().getZona_basica_salud(), event.getItem().getTasa_incidencia_acumulada_ultimos_14dias(), event.getItem().getTasa_incidencia_acumulada_total(), event.getItem().getCasos_confirmados_totales(), event.getItem().getCasos_confirmados_ultimos_14dias(), event.getItem().getFecha_informe()));
         grid.addItemDoubleClickListener(event -> texto1.setValue(event.getItem().getCodigo_geometria()));
         grid.addItemDoubleClickListener(event -> texto2.setValue(event.getItem().getZona_basica_salud()));
         grid.addItemDoubleClickListener(event -> texto3.setValue(String.valueOf(event.getItem().getTasa_incidencia_acumulada_ultimos_14dias())));
         grid.addItemDoubleClickListener(event -> texto4.setValue(String.valueOf(event.getItem().getTasa_incidencia_acumulada_total())));
         grid.addItemDoubleClickListener(event -> texto5.setValue(String.valueOf(event.getItem().getCasos_confirmados_totales())));
         grid.addItemDoubleClickListener(event -> texto6.setValue(String.valueOf(event.getItem().getCasos_confirmados_ultimos_14dias())));
-        grid.addItemDoubleClickListener(event -> texto7.setValue(event.getItem().getFecha_informe()));
-        grid.addItemDoubleClickListener(event -> texto8.setValue(String.valueOf(event.getItem().getFechaFinal())));
+        grid.addItemDoubleClickListener(event -> {
+            try {
+                texto7.setValue(String.valueOf(event.getItem().setFechaFinal(event.getItem().getFecha_informe())));
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        grid.addItemDoubleClickListener(new ComponentEventListener<ItemDoubleClickEvent<ZonaBasicaSalud>>() {
+            @Override
+            public void onComponentEvent(ItemDoubleClickEvent<ZonaBasicaSalud> event) {
+                antiguoDato.setCodigo_geometria(event.getItem().getCodigo_geometria());
+                antiguoDato.setZona_basica_salud(event.getItem().getZona_basica_salud());
+                antiguoDato.setTasa_incidencia_acumulada_ultimos_14dias(event.getItem().getTasa_incidencia_acumulada_ultimos_14dias());
+                antiguoDato.setTasa_incidencia_acumulada_total(event.getItem().getTasa_incidencia_acumulada_total());
+                antiguoDato.setCasos_confirmados_totales(event.getItem().getCasos_confirmados_totales());
+                antiguoDato.setCasos_confirmados_ultimos_14dias(event.getItem().getCasos_confirmados_ultimos_14dias());
+                antiguoDato.setFecha_informe(String.valueOf(event.getItem().getFecha_informe()));
+
+                System.out.println(antiguoDato.toString());
+            }
+        });
         grid.addItemDoubleClickListener(event -> dialog.open());
 
+
+        // Posicion de donde he clickado
 
         try {
             listaPacientes = DataService.getTodasPersonas(listaPacientes);
@@ -149,15 +168,22 @@ public class MainView extends VerticalLayout{
 
         grid.setItems(listaPacientes);
 
+
         boton.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                // Sacar los valores de dentro de los Text: Usar getvalue
-                // posicionelementoArray(listaPacientes, );
+                ZonaBasicaSalud nuevodato;
+                try {
+                     nuevodato = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()), texto7.getValue());
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+                DataService.enviarDatosActualizar(antiguoDato, nuevodato, finalListaPacientes);
             }
         });
 
-        //grid.getDataProvider.refreshAll();
+
 
 
 
@@ -173,28 +199,8 @@ public class MainView extends VerticalLayout{
        
     }
 
-    private void llamarAntiguoSeleccionado(String codigo, String zona_basica, float tasa, float tasa2,  int casos, int casos2, String fecha) {
-        try {
-            ZonaBasicaSalud zonaantigua = new ZonaBasicaSalud(codigo, zona_basica, tasa, tasa2, casos, casos2, fecha);
-            System.out.println(zonaantigua.toString());
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
 
-    }
 
-    private void posicionelementoArray(ArrayList<ZonaBasicaSalud> lista, ZonaBasicaSalud elementoabuscar){
-        int contador = 0;
-        for (ZonaBasicaSalud zonaBasica: lista
-             ) {
-            if(zonaBasica.toString().equals(elementoabuscar.toString())){
-                System.out.println("Se encuentra en esta posicion "+contador);
-            }
-            else{
-                contador++;
-            }
-        }
 
-    }
 
 }
