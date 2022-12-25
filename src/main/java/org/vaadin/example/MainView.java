@@ -17,6 +17,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.xml.crypto.Data;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -50,10 +51,13 @@ public class MainView extends VerticalLayout{
     public MainView() {
 
         ArrayList<ZonaBasicaSalud> listaPacientes = new ArrayList<>();
+        ZonaBasicaSalud elemetoAntiguo;
         Dialog dialog = new Dialog();
         dialog.setHeight("800");
         dialog.setWidth("300");
         dialog.getElement().setAttribute("aria-label", "Mostrar/editar Zonas");
+
+
         VerticalLayout verticalLayout = new VerticalLayout();
         HorizontalLayout horizontalLayout1 = new HorizontalLayout();
         HorizontalLayout horizontalLayout2 = new HorizontalLayout();
@@ -125,7 +129,7 @@ public class MainView extends VerticalLayout{
 
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
 
-        grid.addItemDoubleClickListener(event -> System.out.println(event.getItem().toString()));
+        grid.addItemDoubleClickListener(event ->  llamarAntiguoSeleccionado(event.getItem().getCodigo_geometria(), event.getItem().getZona_basica_salud(), event.getItem().getTasa_incidencia_acumulada_ultimos_14dias(), event.getItem().getTasa_incidencia_acumulada_total(), event.getItem().getCasos_confirmados_totales(), event.getItem().getCasos_confirmados_ultimos_14dias(), event.getItem().getFecha_informe()));
         grid.addItemDoubleClickListener(event -> texto1.setValue(event.getItem().getCodigo_geometria()));
         grid.addItemDoubleClickListener(event -> texto2.setValue(event.getItem().getZona_basica_salud()));
         grid.addItemDoubleClickListener(event -> texto3.setValue(String.valueOf(event.getItem().getTasa_incidencia_acumulada_ultimos_14dias())));
@@ -135,6 +139,7 @@ public class MainView extends VerticalLayout{
         grid.addItemDoubleClickListener(event -> texto7.setValue(event.getItem().getFecha_informe()));
         grid.addItemDoubleClickListener(event -> texto8.setValue(String.valueOf(event.getItem().getFechaFinal())));
         grid.addItemDoubleClickListener(event -> dialog.open());
+
 
         try {
             listaPacientes = DataService.getTodasPersonas(listaPacientes);
@@ -147,15 +152,13 @@ public class MainView extends VerticalLayout{
         boton.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                ZonaBasicaSalud zonaBasicaSalud;
-                try {
-                    zonaBasicaSalud = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(),  Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.parseInt(texto5.getValue()), Integer.parseInt(texto6.getValue()), texto7.getValue());
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-                DataService.enviarDatosActualizar(zonaBasicaSalud);
+                // Sacar los valores de dentro de los Text: Usar getvalue
+                // posicionelementoArray(listaPacientes, );
             }
         });
+
+        //grid.getDataProvider.refreshAll();
+
 
 
         boton2.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
@@ -168,6 +171,30 @@ public class MainView extends VerticalLayout{
         this.add(horizontalLayoutAniadir, grid);
         this.setAlignItems(Alignment.CENTER);
        
+    }
+
+    private void llamarAntiguoSeleccionado(String codigo, String zona_basica, float tasa, float tasa2,  int casos, int casos2, String fecha) {
+        try {
+            ZonaBasicaSalud zonaantigua = new ZonaBasicaSalud(codigo, zona_basica, tasa, tasa2, casos, casos2, fecha);
+            System.out.println(zonaantigua.toString());
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void posicionelementoArray(ArrayList<ZonaBasicaSalud> lista, ZonaBasicaSalud elementoabuscar){
+        int contador = 0;
+        for (ZonaBasicaSalud zonaBasica: lista
+             ) {
+            if(zonaBasica.toString().equals(elementoabuscar.toString())){
+                System.out.println("Se encuentra en esta posicion "+contador);
+            }
+            else{
+                contador++;
+            }
+        }
+
     }
 
 }

@@ -100,15 +100,15 @@ public class ZonaBasicaSalud {
 
     @Override
     public String toString() {
-        return "ZonaBasicaSalu{" +
-                "codigo_geometria='" + codigo_geometria + '\'' +
-                ", zona_basica_salud='" + zona_basica_salud + '\'' +
-                ", tasa_incidencia_acumulada_ultimos_14dias=" + tasa_incidencia_acumulada_ultimos_14dias +
-                ", tasa_incidencia_acumulada_total=" + tasa_incidencia_acumulada_total +
-                ", casos_confirmados_totales=" + casos_confirmados_totales +
-                ", casos_confirmados_ultimos_14dias=" + casos_confirmados_ultimos_14dias +
-                ", fecha_informe='" + fecha_informe + '\'' +
-                ", fechaFinal=" + fechaFinal +
+        return "{" +
+                "codigo_geometria:'" + codigo_geometria + '\n' +
+                ", zona_basica_salud: '" + zona_basica_salud + "\n" +
+                ", tasa_incidencia_acumulada_ultimos_14dias: " + tasa_incidencia_acumulada_ultimos_14dias + "\n" +
+                ", tasa_incidencia_acumulada_total: " + tasa_incidencia_acumulada_total + "\n" +
+                ", casos_confirmados_totales: " + casos_confirmados_totales + "\n" +
+                ", casos_confirmados_ultimos_14dias: " + casos_confirmados_ultimos_14dias + "\n" +
+                ", fecha_informe: '" + fecha_informe + '\n' +
+                ", fechaFinal: " + fechaFinal +
                 '}';
     }
 }
