@@ -3,11 +3,19 @@ package org.vaadin.example;
 import com.google.gson.Gson;
 import com.googlecode.gentyref.TypeToken;
 import org.apache.catalina.connector.OutputBuffer;
+import org.apache.catalina.connector.Response;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import java.io.DataOutput;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.*;
@@ -41,14 +49,9 @@ public class DataService {
     }
 
 
-    @PutMapping
-    public static void enviarDatosActualizar(ZonaBasicaSalud zonaBasicaSaludAntiguo, ZonaBasicaSalud zonaBasicaSaludNuevo, ArrayList<ZonaBasicaSalud> listaPacientes) {
-            listaPacientes.add(zonaBasicaSaludAntiguo);
-            listaPacientes.add(zonaBasicaSaludNuevo);
+    @PutMapping(path = "/{codigo_geometria}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public static ResponseEntity<ZonaBasicaSalud> enviarDatosActualizar(@PathVariable String codigo_geometria, ZonaBasicaSalud zonaBasicaSaludAntiguo, @RequestBody ZonaBasicaSalud zonaBasicaSaludNuevo, ArrayList<ZonaBasicaSalud> listaPacientes) {
 
-        for (ZonaBasicaSalud elementosLista: listaPacientes
-             ) {
-            System.out.println(elementosLista.toString());
-        }
+        return new ResponseEntity<>(zonaBasicaSaludNuevo, HttpStatus.OK);
     }
 }

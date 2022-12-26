@@ -2,13 +2,18 @@ package org.vaadin.example;
 
 import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.ItemDoubleClickEvent;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -177,12 +182,38 @@ public class MainView extends VerticalLayout{
             public void onComponentEvent(ClickEvent<Button> event) {
                 ZonaBasicaSalud nuevodato;
                 try {
-                     nuevodato = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()),  ZonaBasicaSalud.setFechaFinal2(texto7.getValue()));
+                     nuevodato = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()),  texto7.getValue());
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
 
-                DataService.enviarDatosActualizar(antiguoDato, nuevodato, finalListaPacientes);
+                if(antiguoDato.toString().equals(nuevodato.toString())){
+
+                    Notification notification = new Notification();
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+                    Div text = new Div(new Text("Failed to generate report"));
+
+                    Button closeButton = new Button(new Icon("lumo", "cross"));
+                    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+                    closeButton.getElement().setAttribute("aria-label", "Close");
+                    closeButton.addClickListener(event2 -> {
+                        notification.close();
+                    });
+
+                    HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+                    layout.setAlignItems(Alignment.CENTER);
+
+                    notification.add(layout);
+                    notification.open();
+                }
+                else{
+                    DataService.enviarDatosActualizar(nuevodato.getCodigo_geometria(), antiguoDato, nuevodato, finalListaPacientes);
+                    Notification notification = Notification.show("Elemento cambiado con exito");
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    dialog.close();
+                }
+
             }
         });
 
