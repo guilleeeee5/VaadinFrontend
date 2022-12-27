@@ -77,6 +77,7 @@ public class MainView extends VerticalLayout{
         TextField textomostrar = new TextField();
         textomostrar.setValue("Añadir nuevo elemento ");
         textomostrar.setEnabled(false);
+
         Button botonAniadir = new Button("Añadir nuevo elemento");
         horizontalLayoutAniadir.add(botonAniadir);
 
@@ -166,8 +167,7 @@ public class MainView extends VerticalLayout{
         grid.addItemDoubleClickListener(event -> dialog.open());
 
 
-        // Posicion de donde he clickado
-
+        // Rellenno el arrayilst, con los datos recibidos
         try {
             listaPacientes = DataService.getTodasPersonas(listaPacientes);
         } catch (URISyntaxException e) {
@@ -192,7 +192,7 @@ public class MainView extends VerticalLayout{
                     Notification notification = new Notification();
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
 
-                    Div text = new Div(new Text("Failed to generate report"));
+                    Div text = new Div(new Text("El elemento no se puede actualizar, es el mismo."));
 
                     Button closeButton = new Button(new Icon("lumo", "cross"));
                     closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);

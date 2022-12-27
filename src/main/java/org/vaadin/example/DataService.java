@@ -51,7 +51,9 @@ public class DataService {
 
     @PutMapping(path = "/{codigo_geometria}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
     public static ResponseEntity<ZonaBasicaSalud> enviarDatosActualizar(@PathVariable String codigo_geometria, ZonaBasicaSalud zonaBasicaSaludAntiguo, @RequestBody ZonaBasicaSalud zonaBasicaSaludNuevo, ArrayList<ZonaBasicaSalud> listaPacientes) {
-
+        listaPacientes = new ArrayList<>();
+        listaPacientes.add(zonaBasicaSaludAntiguo);
+        listaPacientes.add(zonaBasicaSaludNuevo);
         return new ResponseEntity<>(zonaBasicaSaludNuevo, HttpStatus.OK);
     }
 }
