@@ -1,5 +1,6 @@
 package org.vaadin.example;
 
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,7 +13,6 @@ public class ZonaBasicaSalud {
     private int casos_confirmados_totales;
     private int casos_confirmados_ultimos_14dias;
     private String fecha_informe;
-    private Date fechaFinal;
 
     public ZonaBasicaSalud(String codigo_geometria, String zona_basica_salud, float tasa_incidencia_acumulada_ultimos_14dias, float tasa_incidencia_acumulada_total, int casos_confirmados_totales, int casos_confirmados_ultimos_14dias, String fecha_informe) throws ParseException {
         this.codigo_geometria = codigo_geometria;
@@ -52,15 +52,20 @@ public class ZonaBasicaSalud {
         this.fecha_informe = fecha_informe;
     }
 
-    public void setFechaFinal(String fecha_informe) throws ParseException {
+    public static String setFechaFinal(String fecha_informe) throws ParseException {
+        Date fecha_final;
         fecha_informe = fecha_informe.replace("/", "-");
         SimpleDateFormat Formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date d = Formato.parse(fecha_informe);
         Formato.applyPattern("dd-MM-yyyy HH:mm:ss");
         fecha_informe = Formato.format(d);
-        this.fechaFinal = Formato.parse(fecha_informe);
-        //System.out.println(Formato.format(fechaFinal));
+        fecha_final = Formato.parse(fecha_informe);
+        String fechaSacar = Formato.format(fecha_final);
+        return fechaSacar;
+
     }
+
+    
 
     public int getCasos_confirmados_ultimos_14dias() {
         return casos_confirmados_ultimos_14dias;
@@ -94,21 +99,25 @@ public class ZonaBasicaSalud {
         return fecha_informe;
     }
 
-    public Date getFechaFinal() {
-        return fechaFinal;
+    public String mostrarJson() {
+        return "{" +
+                "codigo_geometria=" + codigo_geometria + '&' +
+                "zona_basica_salud=" + zona_basica_salud + "&" +
+                "tasa_incidencia_acumulada_ultimos_14dias=" + tasa_incidencia_acumulada_ultimos_14dias + "&" +
+                "tasa_incidencia_acumulada_total=" + tasa_incidencia_acumulada_total + "&" +
+                "casos_confirmados_totales=" + casos_confirmados_totales + "&" +
+                "casos_confirmados_ultimos_14dias=" + casos_confirmados_ultimos_14dias + "&" +
+                "fecha_informe=" + fecha_informe;
     }
 
     @Override
     public String toString() {
-        return "ZonaBasicaSalu{" +
+        return "ZonaBasicaSalud{" +
                 "codigo_geometria='" + codigo_geometria + '\'' +
                 ", zona_basica_salud='" + zona_basica_salud + '\'' +
                 ", tasa_incidencia_acumulada_ultimos_14dias=" + tasa_incidencia_acumulada_ultimos_14dias +
                 ", tasa_incidencia_acumulada_total=" + tasa_incidencia_acumulada_total +
                 ", casos_confirmados_totales=" + casos_confirmados_totales +
-                ", casos_confirmados_ultimos_14dias=" + casos_confirmados_ultimos_14dias +
-                ", fecha_informe='" + fecha_informe + '\'' +
-                ", fechaFinal=" + fechaFinal +
-                '}';
+                ", casos_confirmados_ultimos_14dias=" + casos_confirmados_ultimos_14dias;
     }
 }
