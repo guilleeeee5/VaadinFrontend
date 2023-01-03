@@ -20,6 +20,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,6 +48,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 public class MainView extends VerticalLayout{
     ArrayList<ZonaBasicaSalud> listaPacientes = new ArrayList<>();
+    ArrayList<ZonaBasicaSalud> listaAuxiliar = new ArrayList<>();
     ArrayList<ZonaBasicaSalud> finalListaPacientes = listaPacientes;
     /**
      * Construct a new Vaadin view.
@@ -209,15 +211,20 @@ public class MainView extends VerticalLayout{
                     notification.open();
                 }
                 else{
-                    DataService.enviarDatosActualizar(antiguoDato, nuevodato);
-                    Notification notification = Notification.show("Elemento cambiado con exito");
-                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     try {
-                        listaPacientes = DataService.getTodasPersonas(listaPacientes);
+                        listaAuxiliar.add(antiguoDato);
+                        listaAuxiliar.add(nuevodato);
+                        listaAuxiliar = DataService.enviarDatosActualizar(listaAuxiliar);
                     } catch (URISyntaxException e) {
                         throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
-                    grid.setItems(listaPacientes);
+                    Notification notification = Notification.show("Elemento cambiado con exito");
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    grid.setItems(listaAuxiliar);
                     dialog.close();
                 }
 

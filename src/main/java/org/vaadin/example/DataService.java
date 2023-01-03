@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.constraints.NotNull;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -49,10 +50,10 @@ public class DataService {
     }
 
 
-    @PutMapping(path = urlPrefix, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public static String enviarDatosActualizar(ZonaBasicaSalud zonaantigua, ZonaBasicaSalud zonaNueva) {
-        String jsonMontado = String.format("[\n%s,\n%s\n]", zonaantigua.mostrarJson(), zonaNueva.mostrarJson());
-        System.out.println(jsonMontado);
-        return jsonMontado;
+
+    public static ArrayList<ZonaBasicaSalud> enviarDatosActualizar(@RequestBody ArrayList<ZonaBasicaSalud> montarJSON) throws URISyntaxException, IOException, InterruptedException {
+        HttpRequest httpRequest = HttpRequest.newBuilder().uri(new URI(urlPrefix)).PUT(HttpRequest.BodyPublishers.ofString("["+montarJSON.get(0).mostrarJson() + "," + montarJSON.get(1).mostrarJson()+"]")).build();
+        System.out.println(httpRequest.toString());
+        return montarJSON;
     }
 }
