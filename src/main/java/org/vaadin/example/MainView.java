@@ -146,6 +146,7 @@ public class MainView extends VerticalLayout{
         grid.addItemDoubleClickListener(event -> {
             try {
                 texto7.setValue(String.valueOf(event.getItem().setFechaFinal(event.getItem().getFecha_informe())));
+
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -208,7 +209,7 @@ public class MainView extends VerticalLayout{
                     notification.open();
                 }
                 else{
-                    DataService.enviarDatosActualizar(nuevodato.getCodigo_geometria(), antiguoDato, nuevodato, finalListaPacientes);
+                    DataService.enviarDatosActualizar(antiguoDato, nuevodato);
                     Notification notification = Notification.show("Elemento cambiado con exito");
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     dialog.close();

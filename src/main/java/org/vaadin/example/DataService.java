@@ -49,11 +49,10 @@ public class DataService {
     }
 
 
-    @PutMapping(path = "/{codigo_geometria}", consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
-    public static ResponseEntity<ZonaBasicaSalud> enviarDatosActualizar(@PathVariable String codigo_geometria, ZonaBasicaSalud zonaBasicaSaludAntiguo, @RequestBody ZonaBasicaSalud zonaBasicaSaludNuevo, ArrayList<ZonaBasicaSalud> listaPacientes) {
-        listaPacientes = new ArrayList<>();
-        listaPacientes.add(zonaBasicaSaludAntiguo);
-        listaPacientes.add(zonaBasicaSaludNuevo);
-        return new ResponseEntity<>(zonaBasicaSaludNuevo, HttpStatus.OK);
+    @PutMapping(path = urlPrefix, consumes = {MediaType.APPLICATION_JSON_VALUE}, produces = MediaType.APPLICATION_JSON_VALUE)
+    public static String enviarDatosActualizar(ZonaBasicaSalud zonaantigua, ZonaBasicaSalud zonaNueva) {
+        String jsonMontado = String.format("[\n%s,\n%s\n]", zonaantigua.mostrarJson(), zonaNueva.mostrarJson());
+        System.out.println(jsonMontado);
+        return jsonMontado;
     }
 }
