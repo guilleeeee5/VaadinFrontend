@@ -46,7 +46,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 public class MainView extends VerticalLayout{
-
+    ArrayList<ZonaBasicaSalud> listaPacientes = new ArrayList<>();
+    ArrayList<ZonaBasicaSalud> finalListaPacientes = listaPacientes;
     /**
      * Construct a new Vaadin view.
      * <p>
@@ -54,8 +55,7 @@ public class MainView extends VerticalLayout{
      */
     public MainView() {
 
-        ArrayList<ZonaBasicaSalud> listaPacientes = new ArrayList<>();
-        ArrayList<ZonaBasicaSalud> finalListaPacientes = listaPacientes;
+
         ZonaBasicaSalud antiguoDato = new ZonaBasicaSalud();
 
         Dialog dialog = new Dialog();
@@ -146,6 +146,7 @@ public class MainView extends VerticalLayout{
         grid.addItemDoubleClickListener(event -> {
             try {
                 texto7.setValue(String.valueOf(event.getItem().setFechaFinal(event.getItem().getFecha_informe())));
+
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
@@ -208,9 +209,15 @@ public class MainView extends VerticalLayout{
                     notification.open();
                 }
                 else{
-                    DataService.enviarDatosActualizar(nuevodato.getCodigo_geometria(), antiguoDato, nuevodato, finalListaPacientes);
+                    DataService.enviarDatosActualizar(antiguoDato, nuevodato);
                     Notification notification = Notification.show("Elemento cambiado con exito");
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    try {
+                        listaPacientes = DataService.getTodasPersonas(listaPacientes);
+                    } catch (URISyntaxException e) {
+                        throw new RuntimeException(e);
+                    }
+                    grid.setItems(listaPacientes);
                     dialog.close();
                 }
 
