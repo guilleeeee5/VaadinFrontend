@@ -50,12 +50,12 @@ public class ZonaBasicaSalud {
         return fechaSacar;
     }
 
-    public String holanacho(String fecha_final1) throws ParseException {
+    public static String invertirFecha(String fecha_final1) throws ParseException {
         Date fecha_final;
-        fecha_final1 = fecha_final1.replace("/", "-");
-        SimpleDateFormat Formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        fecha_final1 = fecha_final1.replace("-", "/");
+        SimpleDateFormat Formato = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date d = Formato.parse(fecha_final1);
-        Formato.applyPattern("dd-MM-yyyy HH:mm:ss");
+        Formato.applyPattern("yyyy/MM/dd HH:mm:ss");
         fecha_final1 = Formato.format(d);
         fecha_final = Formato.parse(fecha_final1);
         String fechaSacar = Formato.format(fecha_final);
@@ -139,6 +139,8 @@ public class ZonaBasicaSalud {
                 ", tasa_incidencia_acumulada_ultimos_14dias=" + tasa_incidencia_acumulada_ultimos_14dias +
                 ", tasa_incidencia_acumulada_total=" + tasa_incidencia_acumulada_total +
                 ", casos_confirmados_totales=" + casos_confirmados_totales +
-                ", casos_confirmados_ultimos_14dias=" + casos_confirmados_ultimos_14dias;
+                ", casos_confirmados_ultimos_14dias=" + casos_confirmados_ultimos_14dias +
+                "\"fecha_informe\": " + "\"" + fecha_informe + "\"" + "\n" +
+                "}";
     }
 }
