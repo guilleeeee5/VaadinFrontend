@@ -25,6 +25,7 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -135,7 +136,7 @@ public class MainView extends VerticalLayout{
         grid.addColumn(ZonaBasicaSalud::getTasa_incidencia_acumulada_total).setHeader("Tasa incidencia total").setSortable(false);
         grid.addColumn(ZonaBasicaSalud::getCasos_confirmados_totales).setHeader("Casos totales").setSortable(false);
         grid.addColumn(ZonaBasicaSalud::getCasos_confirmados_ultimos_14dias).setHeader("Casos 14 dias").setSortable(false);
-        grid.addColumn(ZonaBasicaSalud::getFecha_informe).setHeader("Fecha informe").setSortable(true);
+        grid.addColumn(ZonaBasicaSalud::getFecha_bonita).setHeader("Fecha informe").setSortable(true);
 
         // Rellenar los modales con la informacion
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
@@ -147,7 +148,7 @@ public class MainView extends VerticalLayout{
         grid.addItemDoubleClickListener(event -> texto6.setValue(String.valueOf(event.getItem().getCasos_confirmados_ultimos_14dias())));
         grid.addItemDoubleClickListener(event -> {
             try {
-                texto7.setValue(String.valueOf(event.getItem().setFechaFinal(event.getItem().getFecha_informe())));
+                texto7.setValue(String.valueOf(event.getItem().setFecha_bonita(event.getItem().getFecha_informe())));
 
             } catch (ParseException e) {
                 throw new RuntimeException(e);
@@ -163,8 +164,6 @@ public class MainView extends VerticalLayout{
                 antiguoDato.setCasos_confirmados_totales(event.getItem().getCasos_confirmados_totales());
                 antiguoDato.setCasos_confirmados_ultimos_14dias(event.getItem().getCasos_confirmados_ultimos_14dias());
                 antiguoDato.setFecha_informe(String.valueOf(event.getItem().getFecha_informe()));
-
-                System.out.println(antiguoDato.toString());
             }
         });
         grid.addItemDoubleClickListener(event -> dialog.open());
@@ -212,9 +211,10 @@ public class MainView extends VerticalLayout{
                 }
                 else{
                     try {
+                        listaAuxiliar = new ArrayList<>();
                         listaAuxiliar.add(antiguoDato);
                         listaAuxiliar.add(nuevodato);
-                        listaAuxiliar = DataService.enviarDatosActualizar(listaAuxiliar);
+                        listaPacientes = DataService.enviarDatosActualizar(listaAuxiliar);
                     } catch (URISyntaxException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
@@ -224,10 +224,11 @@ public class MainView extends VerticalLayout{
                     }
                     Notification notification = Notification.show("Elemento cambiado con exito");
                     notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
-                    grid.setItems(listaAuxiliar);
-                    dialog.close();
-                }
 
+                    grid.setItems(listaPacientes);
+                    dialog.close();
+
+                }
             }
         });
 
