@@ -20,10 +20,12 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -47,6 +49,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 public class MainView extends VerticalLayout{
     ArrayList<ZonaBasicaSalud> listaPacientes = new ArrayList<>();
+    ArrayList<ZonaBasicaSalud> listaAuxiliar = new ArrayList<>();
     ArrayList<ZonaBasicaSalud> finalListaPacientes = listaPacientes;
     /**
      * Construct a new Vaadin view.
@@ -133,7 +136,7 @@ public class MainView extends VerticalLayout{
         grid.addColumn(ZonaBasicaSalud::getTasa_incidencia_acumulada_total).setHeader("Tasa incidencia total").setSortable(false);
         grid.addColumn(ZonaBasicaSalud::getCasos_confirmados_totales).setHeader("Casos totales").setSortable(false);
         grid.addColumn(ZonaBasicaSalud::getCasos_confirmados_ultimos_14dias).setHeader("Casos 14 dias").setSortable(false);
-        grid.addColumn(ZonaBasicaSalud::getFecha_informe).setHeader("Fecha informe").setSortable(true);
+        grid.addColumn(ZonaBasicaSalud::getFecha_bonita).setHeader("Fecha informe").setSortable(true);
 
         // Rellenar los modales con la informacion
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
@@ -145,7 +148,7 @@ public class MainView extends VerticalLayout{
         grid.addItemDoubleClickListener(event -> texto6.setValue(String.valueOf(event.getItem().getCasos_confirmados_ultimos_14dias())));
         grid.addItemDoubleClickListener(event -> {
             try {
-                texto7.setValue(String.valueOf(event.getItem().setFechaFinal(event.getItem().getFecha_informe())));
+                texto7.setValue(String.valueOf(event.getItem().setFecha_bonita(event.getItem().getFecha_informe())));
 
             } catch (ParseException e) {
                 throw new RuntimeException(e);
@@ -161,8 +164,6 @@ public class MainView extends VerticalLayout{
                 antiguoDato.setCasos_confirmados_totales(event.getItem().getCasos_confirmados_totales());
                 antiguoDato.setCasos_confirmados_ultimos_14dias(event.getItem().getCasos_confirmados_ultimos_14dias());
                 antiguoDato.setFecha_informe(String.valueOf(event.getItem().getFecha_informe()));
-
-                System.out.println(antiguoDato.toString());
             }
         });
         grid.addItemDoubleClickListener(event -> dialog.open());
@@ -181,9 +182,9 @@ public class MainView extends VerticalLayout{
         boton.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                ZonaBasicaSalud nuevodato;
+                ZonaBasicaSalud nuevodato = null;
                 try {
-                     nuevodato = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()),  texto7.getValue());
+                     nuevodato = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()), ZonaBasicaSalud.invertirFecha(texto7.getValue()));
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
@@ -209,18 +210,25 @@ public class MainView extends VerticalLayout{
                     notification.open();
                 }
                 else{
-                    DataService.enviarDatosActualizar(antiguoDato, nuevodato);
-                    Notification notification = Notification.show("Elemento cambiado con exito");
-                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     try {
-                        listaPacientes = DataService.getTodasPersonas(listaPacientes);
+                        listaAuxiliar = new ArrayList<>();
+                        listaAuxiliar.add(antiguoDato);
+                        listaAuxiliar.add(nuevodato);
+                        listaPacientes = DataService.enviarDatosActualizar(listaAuxiliar);
                     } catch (URISyntaxException e) {
                         throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
                     }
+                    Notification notification = Notification.show("Elemento cambiado con exito");
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+
                     grid.setItems(listaPacientes);
                     dialog.close();
-                }
 
+                }
             }
         });
 
