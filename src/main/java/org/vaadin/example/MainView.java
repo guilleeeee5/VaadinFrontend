@@ -16,6 +16,8 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
@@ -58,7 +60,6 @@ public class MainView extends VerticalLayout{
      */
     public MainView() {
 
-
         ZonaBasicaSalud antiguoDato = new ZonaBasicaSalud();
 
         Dialog dialog = new Dialog();
@@ -66,8 +67,15 @@ public class MainView extends VerticalLayout{
         dialog.setWidth("300");
         dialog.getElement().setAttribute("aria-label", "Mostrar/editar Zonas");
 
-
         String fechaCorrecta ="";
+
+
+        //Tab
+        Tab zonaBasica = new Tab("Zona Basica");
+        Tab zonaBasica60 = new Tab("Zona Basica Mayores de 60");
+        Tabs paginas = new Tabs(zonaBasica,zonaBasica60);
+
+
 
 
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -232,10 +240,6 @@ public class MainView extends VerticalLayout{
             }
         });
 
-
-
-
-
         boton2.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
@@ -243,10 +247,35 @@ public class MainView extends VerticalLayout{
             }
         });
 
-        this.add(horizontalLayoutAniadir, grid);
+
+        // Generar la tabla con los campos arriba puestos.
+        ArrayList<ZonaBasicaSaludMayores60> listaPacientes2 = new ArrayList<ZonaBasicaSaludMayores60>();
+        Grid<ZonaBasicaSaludMayores60> grid2 = new Grid<>(ZonaBasicaSaludMayores60.class, false);
+        grid2.addColumn(ZonaBasicaSaludMayores60::getCodigo_geometria).setHeader("Codigo geometria").setSortable(true);
+        grid2.addColumn(ZonaBasicaSaludMayores60::getZona_basica_salud).setHeader("Zona basica salud").setSortable(false);
+        grid2.addColumn(ZonaBasicaSaludMayores60::getTasa_incidencia_acumulada_P60mas_ultimos_14dias).setHeader("Tasa incidencia 14 dias").setSortable(false);
+        grid2.addColumn(ZonaBasicaSaludMayores60::getCasos_confirmados_P60mas_ultimos_14dias).setHeader("Casos 14 dias").setSortable(false);
+        grid2.addColumn(ZonaBasicaSaludMayores60::getFecha_bonita).setHeader("Fecha informe").setSortable(true);
+        //Añadimos los datos
+        try {
+            listaPacientes2 = DataService.getTodasPersonas2(listaPacientes2);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Rellenar los modales con la informacion
+        grid2.setSelectionMode(Grid.SelectionMode.SINGLE);
+        grid2.setItems(listaPacientes2);
+
+
+
+
+        this.add(paginas, grid,grid2, horizontalLayoutAniadir);
         this.setAlignItems(Alignment.CENTER);
        
     }
+
+
 
 
 
