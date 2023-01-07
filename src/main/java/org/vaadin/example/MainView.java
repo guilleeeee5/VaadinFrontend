@@ -16,6 +16,8 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
@@ -58,7 +60,6 @@ public class MainView extends VerticalLayout{
      */
     public MainView() {
 
-
         ZonaBasicaSalud antiguoDato = new ZonaBasicaSalud();
 
         Dialog dialog = new Dialog();
@@ -66,8 +67,15 @@ public class MainView extends VerticalLayout{
         dialog.setWidth("300");
         dialog.getElement().setAttribute("aria-label", "Mostrar/editar Zonas");
 
-
         String fechaCorrecta ="";
+
+
+        //Tab
+        Tab zonaBasica = new Tab("Zona Basica");
+        Tab zonaBasica60 = new Tab("Zona Basica Mayores de 60");
+        Tabs paginas = new Tabs(zonaBasica,zonaBasica60);
+
+
 
 
         VerticalLayout verticalLayout = new VerticalLayout();
@@ -232,10 +240,6 @@ public class MainView extends VerticalLayout{
             }
         });
 
-
-
-
-
         boton2.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
@@ -243,10 +247,27 @@ public class MainView extends VerticalLayout{
             }
         });
 
-        this.add(horizontalLayoutAniadir, grid);
+
+        // Generar la tabla con los campos arriba puestos.
+        Grid<ZonaBasicaSalud> grid2 = new Grid<>(ZonaBasicaSalud.class, false);
+        grid2.addColumn(ZonaBasicaSalud::getCodigo_geometria).setHeader("Codigo geometria").setSortable(true);
+        grid2.addColumn(ZonaBasicaSalud::getZona_basica_salud).setHeader("Zona basica salud").setSortable(false);
+        grid2.addColumn(ZonaBasicaSalud::getTasa_incidencia_acumulada_ultimos_14dias).setHeader("Tasa incidencia 14 dias").setSortable(false);
+        grid2.addColumn(ZonaBasicaSalud::getCasos_confirmados_ultimos_14dias).setHeader("Casos 14 dias").setSortable(false);
+        grid2.addColumn(ZonaBasicaSalud::getFecha_bonita).setHeader("Fecha informe").setSortable(true);
+
+        // Rellenar los modales con la informacion
+        grid2.setSelectionMode(Grid.SelectionMode.SINGLE);
+
+
+
+
+        this.add(paginas, grid,grid2, horizontalLayoutAniadir);
         this.setAlignItems(Alignment.CENTER);
        
     }
+
+
 
 
 
