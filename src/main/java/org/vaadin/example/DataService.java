@@ -25,6 +25,7 @@ import java.util.Date;
 
 public class DataService {
     private static final String urlPrefix = "http://localhost:8080/ZonaBasicaSalud";
+    private static final String urlPrefix2 = "http://localhost:8080/ZonaBasicaSaludMayores60";
 
     public static ArrayList<ZonaBasicaSalud> getTodasPersonas(ArrayList<ZonaBasicaSalud> listaPacientes) throws URISyntaxException {
 
@@ -44,6 +45,26 @@ public class DataService {
             throw new RuntimeException(e);
         }
         return listaPacientes;
+    }
+
+    public static ArrayList<ZonaBasicaSaludMayores60> getTodasPersonas2(ArrayList<ZonaBasicaSaludMayores60> listaPacientes2) throws URISyntaxException {
+
+        HttpRequest httpRequest = HttpRequest.newBuilder().uri(new URI(urlPrefix2)).GET().build();
+        Gson gson = new Gson();
+        String resultado = null;
+        HttpResponse<String> respuesta = null;
+
+        try {
+            respuesta = HttpClient.newBuilder().build().send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            resultado = respuesta.body();
+            listaPacientes2 = gson.fromJson(resultado, new TypeToken<ArrayList<ZonaBasicaSaludMayores60>>(){}.getType());
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return listaPacientes2;
     }
 
 

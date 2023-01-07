@@ -249,15 +249,23 @@ public class MainView extends VerticalLayout{
 
 
         // Generar la tabla con los campos arriba puestos.
-        Grid<ZonaBasicaSalud> grid2 = new Grid<>(ZonaBasicaSalud.class, false);
-        grid2.addColumn(ZonaBasicaSalud::getCodigo_geometria).setHeader("Codigo geometria").setSortable(true);
-        grid2.addColumn(ZonaBasicaSalud::getZona_basica_salud).setHeader("Zona basica salud").setSortable(false);
-        grid2.addColumn(ZonaBasicaSalud::getTasa_incidencia_acumulada_ultimos_14dias).setHeader("Tasa incidencia 14 dias").setSortable(false);
-        grid2.addColumn(ZonaBasicaSalud::getCasos_confirmados_ultimos_14dias).setHeader("Casos 14 dias").setSortable(false);
-        grid2.addColumn(ZonaBasicaSalud::getFecha_bonita).setHeader("Fecha informe").setSortable(true);
+        ArrayList<ZonaBasicaSaludMayores60> listaPacientes2 = new ArrayList<ZonaBasicaSaludMayores60>();
+        Grid<ZonaBasicaSaludMayores60> grid2 = new Grid<>(ZonaBasicaSaludMayores60.class, false);
+        grid2.addColumn(ZonaBasicaSaludMayores60::getCodigo_geometria).setHeader("Codigo geometria").setSortable(true);
+        grid2.addColumn(ZonaBasicaSaludMayores60::getZona_basica_salud).setHeader("Zona basica salud").setSortable(false);
+        grid2.addColumn(ZonaBasicaSaludMayores60::getTasa_incidencia_acumulada_P60mas_ultimos_14dias).setHeader("Tasa incidencia 14 dias").setSortable(false);
+        grid2.addColumn(ZonaBasicaSaludMayores60::getCasos_confirmados_P60mas_ultimos_14dias).setHeader("Casos 14 dias").setSortable(false);
+        grid2.addColumn(ZonaBasicaSaludMayores60::getFecha_informe).setHeader("Fecha informe").setSortable(true);
+        //Añadimos los datos
+        try {
+            listaPacientes2 = DataService.getTodasPersonas2(listaPacientes2);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
 
         // Rellenar los modales con la informacion
         grid2.setSelectionMode(Grid.SelectionMode.SINGLE);
+        grid2.setItems(listaPacientes2);
 
 
 
