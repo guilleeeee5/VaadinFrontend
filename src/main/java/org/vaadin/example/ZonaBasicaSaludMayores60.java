@@ -1,5 +1,9 @@
 package org.vaadin.example;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class ZonaBasicaSaludMayores60 {
 
     private String codigo_geometria;
@@ -11,6 +15,8 @@ public class ZonaBasicaSaludMayores60 {
     private float casos_confirmados_P60mas_ultimos_14dias;
 
     private String fecha_informe;
+
+    private String fecha_bonita;
 
     public ZonaBasicaSaludMayores60()
     {
@@ -62,6 +68,39 @@ public class ZonaBasicaSaludMayores60 {
 
     public String getFecha_informe() {
         return fecha_informe;
+    }
+
+    public String getFecha_bonita(){
+        try {
+            fecha_bonita = setFecha_bonita(this.fecha_informe);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return fecha_bonita;
+    }
+
+    public String setFecha_bonita(String fecha_final1) throws ParseException {
+        Date fecha_final;
+        fecha_final1 = fecha_final1.replace("/", "-");
+        SimpleDateFormat Formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d = Formato.parse(fecha_final1);
+        Formato.applyPattern("dd-MM-yyyy HH:mm:ss");
+        fecha_final1 = Formato.format(d);
+        fecha_final = Formato.parse(fecha_final1);
+        String fechaSacar = Formato.format(fecha_final);
+        return fechaSacar;
+    }
+
+    public static String invertirFecha(String fecha_final1) throws ParseException {
+        Date fecha_final;
+        fecha_final1 = fecha_final1.replace("-", "/");
+        SimpleDateFormat Formato = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date d = Formato.parse(fecha_final1);
+        Formato.applyPattern("yyyy/MM/dd HH:mm:ss");
+        fecha_final1 = Formato.format(d);
+        fecha_final = Formato.parse(fecha_final1);
+        String fechaSacar = Formato.format(fecha_final);
+        return fechaSacar;
     }
 
 }

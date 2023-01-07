@@ -255,7 +255,7 @@ public class MainView extends VerticalLayout{
         grid2.addColumn(ZonaBasicaSaludMayores60::getZona_basica_salud).setHeader("Zona basica salud").setSortable(false);
         grid2.addColumn(ZonaBasicaSaludMayores60::getTasa_incidencia_acumulada_P60mas_ultimos_14dias).setHeader("Tasa incidencia 14 dias").setSortable(false);
         grid2.addColumn(ZonaBasicaSaludMayores60::getCasos_confirmados_P60mas_ultimos_14dias).setHeader("Casos 14 dias").setSortable(false);
-        grid2.addColumn(ZonaBasicaSaludMayores60::getFecha_informe).setHeader("Fecha informe").setSortable(true);
+        grid2.addColumn(ZonaBasicaSaludMayores60::getFecha_bonita).setHeader("Fecha informe").setSortable(true);
         //Añadimos los datos
         try {
             listaPacientes2 = DataService.getTodasPersonas2(listaPacientes2);
