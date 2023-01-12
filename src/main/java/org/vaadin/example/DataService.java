@@ -3,7 +3,10 @@ package org.vaadin.example;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.googlecode.gentyref.TypeToken;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicResponseHandler;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.net.*;
 import java.net.http.HttpClient;
@@ -89,6 +93,35 @@ public class DataService {
     }
 
     public static ArrayList<ZonaBasicaSalud> aniadirDatosLista(@RequestBody ZonaBasicaSalud zonaaniadir, ArrayList<ZonaBasicaSalud> listaDevuelta){
+        Gson g = new Gson();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String datospasar = zonaaniadir.mostrarJson();
+        StringEntity entidad = null;
+        try {
+            entidad = new StringEntity(datospasar);
+            HttpPost requestpuesta = new HttpPost(urlPrefix);
+            requestpuesta.setHeader("Content-Type", "application/json");
+            requestpuesta.setHeader("Accept", "application/json");
+            requestpuesta.setEntity(entidad);
+            CloseableHttpResponse response = null;
+            response = httpClient.execute(requestpuesta);
+            String respuestaActual = new BasicResponseHandler().handleResponse(response);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (HttpResponseException e) {
+            throw new RuntimeException(e);
+        } catch (ClientProtocolException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         return listaDevuelta;
     }
 
