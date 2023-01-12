@@ -325,11 +325,13 @@ public class MainView extends VerticalLayout{
         grid2.setSelectionMode(Grid.SelectionMode.SINGLE);
         grid2.setItems(listaPacientes2);
 
-
+        grid.setVisible(true);
+        grid2.setVisible(false);
+        paginas.setSelectedTab(zonaBasica);
         paginas.addSelectedChangeListener(new ComponentEventListener<Tabs.SelectedChangeEvent>() {
             @Override
             public void onComponentEvent(Tabs.SelectedChangeEvent event) {
-                if(event.getSelectedTab().getId().equals("ZonaBasica")){
+                if(event.getSelectedTab().getId().toString().equals("Optional[ZonaBasica]")){
                     grid.setVisible(true);
                     grid2.setVisible(false);
                 }
