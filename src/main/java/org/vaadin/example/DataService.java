@@ -117,12 +117,6 @@ public class DataService {
             throw new RuntimeException(e);
         }
 
-        try {
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         return listaDevuelta;
     }
 

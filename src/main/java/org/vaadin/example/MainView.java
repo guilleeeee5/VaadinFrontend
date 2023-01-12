@@ -22,6 +22,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
@@ -67,7 +68,12 @@ public class MainView extends VerticalLayout{
         dialog.setWidth("300");
         dialog.getElement().setAttribute("aria-label", "Mostrar/editar Zonas");
 
-        String fechaCorrecta ="";
+        Dialog dialog2 = new Dialog();
+        dialog2.setHeight("800");
+        dialog2.setWidth("300");
+        dialog2.getElement().setAttribute("aria-label", "Añadir datos a la lista");
+
+
 
 
         //Tab
@@ -79,10 +85,12 @@ public class MainView extends VerticalLayout{
 
 
         VerticalLayout verticalLayout = new VerticalLayout();
+        VerticalLayout verticalLayout2 = new VerticalLayout();
         HorizontalLayout horizontalLayout1 = new HorizontalLayout();
         HorizontalLayout horizontalLayout2 = new HorizontalLayout();
         HorizontalLayout horizontalLayout3 = new HorizontalLayout();
         HorizontalLayout horizontalLayout4 = new HorizontalLayout();
+        HorizontalLayout horizontalLayout5 = new HorizontalLayout();
 
         HorizontalLayout horizontalLayoutAniadir = new HorizontalLayout();
         TextField textomostrar = new TextField();
@@ -111,8 +119,12 @@ public class MainView extends VerticalLayout{
 
         Button boton = new Button("Actualizar");
         Button boton2 = new Button("Cancelar");
+        Button boton3 = new Button("Añadir datos");
+        Button boton4 = new Button("Reiniciar datos");
         boton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         boton2.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        boton3.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        boton4.addThemeVariants(ButtonVariant.LUMO_ERROR);
 
         horizontalLayout1.add(etiqueta1, texto1, etiqueta2, texto2, etiqueta3, texto3);
         horizontalLayout1.setAlignItems(Alignment.CENTER);
@@ -132,8 +144,16 @@ public class MainView extends VerticalLayout{
         horizontalLayout4.setWidth("100%");
         horizontalLayout4.setSpacing(false);
 
+        horizontalLayout4.add(boton3, boton4);
+        horizontalLayout4.setAlignItems(Alignment.CENTER);
+        horizontalLayout4.setVerticalComponentAlignment(Alignment.CENTER);
+        horizontalLayout4.setWidth("100%");
+        horizontalLayout4.setSpacing(false);
+
         verticalLayout.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout4);
+        verticalLayout2.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout5);
         dialog.add(verticalLayout);
+        dialog2.add(verticalLayout2);
 
 
         // Generar la tabla con los campos arriba puestos.
@@ -244,6 +264,42 @@ public class MainView extends VerticalLayout{
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
                 dialog.close();
+            }
+        });
+
+        botonAniadir.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+            @Override
+            public void onComponentEvent(ClickEvent<Button> event) {
+                dialog2.open();
+
+            }
+        });
+
+        boton3.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+            @Override
+            public void onComponentEvent(ClickEvent<Button> event) {
+                ZonaBasicaSalud zonaBasicaSalud;
+                try {
+                    zonaBasicaSalud = new ZonaBasicaSalud("", texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()), ZonaBasicaSalud.invertirFecha(texto7.getValue()));
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                listaPacientes = DataService.aniadirDatosLista(zonaBasicaSalud, listaPacientes);
+                grid.setItems(listaPacientes);
+                dialog2.close();
+            }
+        });
+
+        boton4.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+            @Override
+            public void onComponentEvent(ClickEvent<Button> event) {
+                texto1.setValue("");
+                texto2.setValue("");
+                texto3.setValue("");
+                texto4.setValue("");
+                texto5.setValue("");
+                texto6.setValue("");
+                texto7.setValue("");
             }
         });
 
