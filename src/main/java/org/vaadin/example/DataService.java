@@ -106,6 +106,7 @@ public class DataService {
             CloseableHttpResponse response = null;
             response = httpClient.execute(requestpuesta);
             String respuestaActual = new BasicResponseHandler().handleResponse(response);
+            listaDevuelta = g.fromJson(respuestaActual, new TypeToken<ArrayList<ZonaBasicaSalud>>(){}.getType());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         } catch (HttpResponseException e) {
