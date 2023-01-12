@@ -78,8 +78,11 @@ public class MainView extends VerticalLayout{
 
         //Tab
         Tab zonaBasica = new Tab("Zona Basica");
+        zonaBasica.setId("ZonaBasica");
         Tab zonaBasica60 = new Tab("Zona Basica Mayores de 60");
+        zonaBasica60.setId("ZonaBasica60");
         Tabs paginas = new Tabs(zonaBasica,zonaBasica60);
+
 
 
 
@@ -323,9 +326,24 @@ public class MainView extends VerticalLayout{
         grid2.setItems(listaPacientes2);
 
 
+        paginas.addSelectedChangeListener(new ComponentEventListener<Tabs.SelectedChangeEvent>() {
+            @Override
+            public void onComponentEvent(Tabs.SelectedChangeEvent event) {
+                if(event.getSelectedTab().getId().equals("ZonaBasica")){
+                    grid.setVisible(true);
+                    grid2.setVisible(false);
+                }
+                else{
+                    grid.setVisible(false);
+                    grid2.setVisible(true);
+                }
+            }
+        });
 
 
-        this.add(paginas, grid,grid2, horizontalLayoutAniadir);
+
+
+        this.add(paginas, grid, grid2, horizontalLayoutAniadir);
         this.setAlignItems(Alignment.CENTER);
        
     }
