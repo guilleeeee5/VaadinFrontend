@@ -83,7 +83,6 @@ public class MainView extends VerticalLayout{
 
 
 
-
         VerticalLayout verticalLayout = new VerticalLayout();
         VerticalLayout verticalLayout2 = new VerticalLayout();
         HorizontalLayout horizontalLayout1 = new HorizontalLayout();
@@ -116,7 +115,6 @@ public class MainView extends VerticalLayout{
         Label etiqueta7 = new Label("Fecha informe");
         TextField texto7 = new TextField();
 
-
         Button boton = new Button("Actualizar");
         Button boton2 = new Button("Cancelar");
         Button boton3 = new Button("Añadir datos");
@@ -125,6 +123,7 @@ public class MainView extends VerticalLayout{
         boton2.addThemeVariants(ButtonVariant.LUMO_ERROR);
         boton3.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         boton4.addThemeVariants(ButtonVariant.LUMO_ERROR);
+
 
         horizontalLayout1.add(etiqueta1, texto1, etiqueta2, texto2, etiqueta3, texto3);
         horizontalLayout1.setAlignItems(Alignment.CENTER);
@@ -137,18 +136,18 @@ public class MainView extends VerticalLayout{
         horizontalLayout3.setAlignSelf(Alignment.CENTER);
         horizontalLayout3.setWidth("100%");
 
-
         horizontalLayout4.add(boton, boton2);
         horizontalLayout4.setAlignItems(Alignment.CENTER);
         horizontalLayout4.setVerticalComponentAlignment(Alignment.CENTER);
         horizontalLayout4.setWidth("100%");
         horizontalLayout4.setSpacing(false);
 
-        horizontalLayout4.add(boton3, boton4);
-        horizontalLayout4.setAlignItems(Alignment.CENTER);
-        horizontalLayout4.setVerticalComponentAlignment(Alignment.CENTER);
-        horizontalLayout4.setWidth("100%");
-        horizontalLayout4.setSpacing(false);
+        horizontalLayout5.add(boton3, boton4);
+        horizontalLayout5.setAlignItems(Alignment.CENTER);
+        horizontalLayout5.setVerticalComponentAlignment(Alignment.CENTER);
+        horizontalLayout5.setWidth("100%");
+        horizontalLayout5.setSpacing(false);
+
 
         verticalLayout.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout4);
         verticalLayout2.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout5);
