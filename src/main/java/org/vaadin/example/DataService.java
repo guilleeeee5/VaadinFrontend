@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.*;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -85,6 +86,10 @@ public class DataService {
         montarJSON = g.fromJson(respuestaActual, new TypeToken<ArrayList<ZonaBasicaSalud>>(){}.getType());
 
         return montarJSON;
+    }
+
+    public static ArrayList<ZonaBasicaSalud> aniadirDatosLista(@RequestBody ZonaBasicaSalud zonaaniadir, ArrayList<ZonaBasicaSalud> listaDevuelta){
+        return listaDevuelta;
     }
 
 
