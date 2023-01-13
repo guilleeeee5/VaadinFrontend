@@ -22,6 +22,7 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
@@ -67,22 +68,31 @@ public class MainView extends VerticalLayout{
         dialog.setWidth("300");
         dialog.getElement().setAttribute("aria-label", "Mostrar/editar Zonas");
 
-        String fechaCorrecta ="";
+        Dialog dialog2 = new Dialog();
+        dialog2.setHeight("800");
+        dialog2.setWidth("300");
+        dialog2.getElement().setAttribute("aria-label", "Añadir datos a la lista");
+
+
 
 
         //Tab
         Tab zonaBasica = new Tab("Zona Basica");
+        zonaBasica.setId("ZonaBasica");
         Tab zonaBasica60 = new Tab("Zona Basica Mayores de 60");
+        zonaBasica60.setId("ZonaBasica60");
         Tabs paginas = new Tabs(zonaBasica,zonaBasica60);
 
 
 
 
         VerticalLayout verticalLayout = new VerticalLayout();
+        VerticalLayout verticalLayout2 = new VerticalLayout();
         HorizontalLayout horizontalLayout1 = new HorizontalLayout();
         HorizontalLayout horizontalLayout2 = new HorizontalLayout();
         HorizontalLayout horizontalLayout3 = new HorizontalLayout();
         HorizontalLayout horizontalLayout4 = new HorizontalLayout();
+        HorizontalLayout horizontalLayout5 = new HorizontalLayout();
 
         HorizontalLayout horizontalLayoutAniadir = new HorizontalLayout();
         TextField textomostrar = new TextField();
@@ -108,11 +118,15 @@ public class MainView extends VerticalLayout{
         Label etiqueta7 = new Label("Fecha informe");
         TextField texto7 = new TextField();
 
-
         Button boton = new Button("Actualizar");
         Button boton2 = new Button("Cancelar");
+        Button boton3 = new Button("Añadir datos");
+        Button boton4 = new Button("Reiniciar datos");
         boton.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         boton2.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        boton3.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        boton4.addThemeVariants(ButtonVariant.LUMO_ERROR);
+
 
         horizontalLayout1.add(etiqueta1, texto1, etiqueta2, texto2, etiqueta3, texto3);
         horizontalLayout1.setAlignItems(Alignment.CENTER);
@@ -125,15 +139,23 @@ public class MainView extends VerticalLayout{
         horizontalLayout3.setAlignSelf(Alignment.CENTER);
         horizontalLayout3.setWidth("100%");
 
-
         horizontalLayout4.add(boton, boton2);
         horizontalLayout4.setAlignItems(Alignment.CENTER);
         horizontalLayout4.setVerticalComponentAlignment(Alignment.CENTER);
         horizontalLayout4.setWidth("100%");
         horizontalLayout4.setSpacing(false);
 
+        horizontalLayout5.add(boton3, boton4);
+        horizontalLayout5.setAlignItems(Alignment.CENTER);
+        horizontalLayout5.setVerticalComponentAlignment(Alignment.CENTER);
+        horizontalLayout5.setWidth("100%");
+        horizontalLayout5.setSpacing(false);
+
+
         verticalLayout.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout4);
+        verticalLayout2.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout5);
         dialog.add(verticalLayout);
+        dialog2.add(verticalLayout2);
 
 
         // Generar la tabla con los campos arriba puestos.
@@ -247,6 +269,42 @@ public class MainView extends VerticalLayout{
             }
         });
 
+        botonAniadir.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+            @Override
+            public void onComponentEvent(ClickEvent<Button> event) {
+                dialog2.open();
+
+            }
+        });
+
+        boton3.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+            @Override
+            public void onComponentEvent(ClickEvent<Button> event) {
+                ZonaBasicaSalud zonaBasicaSalud;
+                try {
+                    zonaBasicaSalud = new ZonaBasicaSalud("", texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()), ZonaBasicaSalud.invertirFecha(texto7.getValue()));
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                listaPacientes = DataService.aniadirDatosLista(zonaBasicaSalud, listaPacientes);
+                grid.setItems(listaPacientes);
+                dialog2.close();
+            }
+        });
+
+        boton4.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+            @Override
+            public void onComponentEvent(ClickEvent<Button> event) {
+                texto1.setValue("");
+                texto2.setValue("");
+                texto3.setValue("");
+                texto4.setValue("");
+                texto5.setValue("");
+                texto6.setValue("");
+                texto7.setValue("");
+            }
+        });
+
 
         // Generar la tabla con los campos arriba puestos.
         ArrayList<ZonaBasicaSaludMayores60> listaPacientes2 = new ArrayList<ZonaBasicaSaludMayores60>();
@@ -267,10 +325,27 @@ public class MainView extends VerticalLayout{
         grid2.setSelectionMode(Grid.SelectionMode.SINGLE);
         grid2.setItems(listaPacientes2);
 
+        grid.setVisible(true);
+        grid2.setVisible(false);
+        paginas.setSelectedTab(zonaBasica);
+        paginas.addSelectedChangeListener(new ComponentEventListener<Tabs.SelectedChangeEvent>() {
+            @Override
+            public void onComponentEvent(Tabs.SelectedChangeEvent event) {
+                if(event.getSelectedTab().getId().toString().equals("Optional[ZonaBasica]")){
+                    grid.setVisible(true);
+                    grid2.setVisible(false);
+                }
+                else{
+                    grid.setVisible(false);
+                    grid2.setVisible(true);
+                }
+            }
+        });
 
 
 
-        this.add(paginas, grid,grid2, horizontalLayoutAniadir);
+
+        this.add(paginas, grid, grid2, horizontalLayoutAniadir);
         this.setAlignItems(Alignment.CENTER);
        
     }
