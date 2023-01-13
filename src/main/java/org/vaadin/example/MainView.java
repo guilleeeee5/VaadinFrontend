@@ -91,6 +91,9 @@ public class MainView extends VerticalLayout{
         HorizontalLayout horizontalLayout3 = new HorizontalLayout();
         HorizontalLayout horizontalLayout4 = new HorizontalLayout();
         HorizontalLayout horizontalLayout5 = new HorizontalLayout();
+        HorizontalLayout horizontalLayout6 = new HorizontalLayout();
+        HorizontalLayout horizontalLayout7 = new HorizontalLayout();
+        HorizontalLayout horizontalLayout8 = new HorizontalLayout();
 
         HorizontalLayout horizontalLayoutAniadir = new HorizontalLayout();
         TextField textomostrar = new TextField();
@@ -149,11 +152,44 @@ public class MainView extends VerticalLayout{
         horizontalLayout5.setWidth("100%");
         horizontalLayout5.setSpacing(false);
 
+        Label etiqueta8 = new Label("Codigo geometria");
+        TextField texto8 = new TextField();
+        texto8.setEnabled(false);
+        Label etiqueta9 = new Label("Zona basica salud");
+        TextField texto9 = new TextField();
+        Label etiqueta10 = new Label("Tasa 14 dias");
+        TextField texto10 = new TextField();
+        Label etiqueta11 = new Label("Tasa acumulada total");
+        TextField texto11 = new TextField();
+        Label etiqueta12 = new Label("Casos totales");
+        TextField texto12 = new TextField();
+        Label etiqueta13 = new Label("Casos 14 dias");
+        TextField texto13 = new TextField();
+        Label etiqueta14 = new Label("Fecha informe");
+        TextField texto14 = new TextField();
+        horizontalLayout5.add(etiqueta8, texto8, etiqueta9, texto9, etiqueta10, texto10);
+        horizontalLayout5.setAlignItems(Alignment.CENTER);
+
+        horizontalLayout6.add(etiqueta11, texto11, etiqueta12, texto12, etiqueta13, texto13);
+        horizontalLayout6.setAlignItems(Alignment.CENTER);
+        horizontalLayout7.add(etiqueta14, texto14);
+        horizontalLayout7.setAlignItems(Alignment.CENTER);
+        horizontalLayout7.setSpacing(false);
+        horizontalLayout7.setAlignSelf(Alignment.CENTER);
+        horizontalLayout7.setWidth("100%");
+
+        horizontalLayout8.add(boton3, boton4);
+        horizontalLayout8.setAlignItems(Alignment.CENTER);
+        horizontalLayout8.setVerticalComponentAlignment(Alignment.CENTER);
+        horizontalLayout8.setWidth("100%");
+        horizontalLayout8.setSpacing(false);
+        verticalLayout2.add(horizontalLayout5, horizontalLayout6, horizontalLayout7, horizontalLayout8);
+
 
         verticalLayout.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout4);
-        //verticalLayout2.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout5);
+        verticalLayout2.add(horizontalLayout5, horizontalLayout6, horizontalLayout7, horizontalLayout8);
         dialog.add(verticalLayout);
-        //dialog2.add(verticalLayout2);
+        dialog2.add(verticalLayout2);
 
 
         // Generar la tabla con los campos arriba puestos.
@@ -287,7 +323,7 @@ public class MainView extends VerticalLayout{
             public void onComponentEvent(ClickEvent<Button> event) {
                 ZonaBasicaSalud zonaBasicaSalud;
                 try {
-                    zonaBasicaSalud = new ZonaBasicaSalud("", texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()), ZonaBasicaSalud.invertirFecha(texto7.getValue()));
+                    zonaBasicaSalud = new ZonaBasicaSalud("", texto9.getValue(), Float.valueOf(texto10.getValue()), Float.valueOf(texto11.getValue()), Integer.valueOf(texto12.getValue()), Integer.valueOf(texto13.getValue()), ZonaBasicaSalud.invertirFecha(texto14.getValue()));
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
