@@ -61,6 +61,7 @@ public class MainView extends VerticalLayout{
 
 
         Tabla1 tabla1 = new Tabla1();
+        Tabla2 tabla2 = new Tabla2();
 
         //Tab
         Tab zonaBasica = new Tab("Zona Basica");
@@ -70,43 +71,25 @@ public class MainView extends VerticalLayout{
         Tabs paginas = new Tabs(zonaBasica,zonaBasica60);
 
 
-        // Generar la tabla con los campos arriba puestos.
-        ArrayList<ZonaBasicaSaludMayores60> listaPacientes2 = new ArrayList<ZonaBasicaSaludMayores60>();
-        Grid<ZonaBasicaSaludMayores60> grid2 = new Grid<>(ZonaBasicaSaludMayores60.class, false);
-        grid2.addColumn(ZonaBasicaSaludMayores60::getCodigo_geometria).setHeader("Codigo geometria").setSortable(true);
-        grid2.addColumn(ZonaBasicaSaludMayores60::getZona_basica_salud).setHeader("Zona basica salud").setSortable(false);
-        grid2.addColumn(ZonaBasicaSaludMayores60::getTasa_incidencia_acumulada_P60mas_ultimos_14dias).setHeader("Tasa incidencia 14 dias").setSortable(false);
-        grid2.addColumn(ZonaBasicaSaludMayores60::getCasos_confirmados_P60mas_ultimos_14dias).setHeader("Casos 14 dias").setSortable(false);
-        grid2.addColumn(ZonaBasicaSaludMayores60::getFecha_bonita).setHeader("Fecha informe").setSortable(true);
-        //Añadimos los datos
-        try {
-            listaPacientes2 = DataService.getTodasPersonas2(listaPacientes2);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-
-        // Rellenar los modales con la informacion
-        grid2.setSelectionMode(Grid.SelectionMode.SINGLE);
-        grid2.setItems(listaPacientes2);
 
         tabla1.setVisible(true);
-        grid2.setVisible(false);
+        tabla2.setVisible(false);
         paginas.setSelectedTab(zonaBasica);
         paginas.addSelectedChangeListener(new ComponentEventListener<Tabs.SelectedChangeEvent>() {
             @Override
             public void onComponentEvent(Tabs.SelectedChangeEvent event) {
                 if(event.getSelectedTab().getId().toString().equals("Optional[ZonaBasica]")){
                     tabla1.setVisible(true);
-                    grid2.setVisible(false);
+                    tabla2.setVisible(false);
                 }
                 else{
                     tabla1.setVisible(false);
-                    grid2.setVisible(true);
+                    tabla2.setVisible(true);
                 }
             }
         });
 
-        this.add(paginas, tabla1, grid2);
+        this.add(paginas, tabla1, tabla2);
         this.setAlignItems(Alignment.CENTER);
        
     }
