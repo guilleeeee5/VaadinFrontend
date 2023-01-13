@@ -96,7 +96,7 @@ public class DataService {
     public static ArrayList<ZonaBasicaSaludMayores60> enviarDatosActualizar60(@RequestBody ArrayList<ZonaBasicaSaludMayores60> montarJSON2) throws URISyntaxException, IOException, InterruptedException {
         Gson g = new Gson();
         CloseableHttpClient httpClient = HttpClients.createDefault();
-        HttpPut request = new HttpPut(urlPrefix);
+        HttpPut request = new HttpPut(urlPrefix2);
         request.setHeader("Content-Type", "application/json");
         request.setHeader("Accept", "application/json");
         String jsonpasado = "[" + montarJSON2.get(0).mostrarJson() + "," + montarJSON2.get(1).mostrarJson() + "]";
