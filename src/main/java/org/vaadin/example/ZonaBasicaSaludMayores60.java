@@ -103,4 +103,14 @@ public class ZonaBasicaSaludMayores60 {
         return fechaSacar;
     }
 
+    public String mostrarJson() {
+        return "{\n" +
+                "\"codigo_geometria\": " + "\"" + codigo_geometria + "\"," + "\n" +
+                "\"zona_basica_salud\": " + "\"" + zona_basica_salud  + "\"," + "\n" +
+                "\"tasa_incidencia_acumulada_ultimos_14dias\": " + tasa_incidencia_acumulada_P60mas_ultimos_14dias  +  ",\n" +
+                "\"tasa_incidencia_acumulada_total\": " + casos_confirmados_P60mas_ultimos_14dias + ",\n" +
+                "\"fecha_informe\": " + "\"" + fecha_informe + "\"" + "\n" +
+                "}";
+    }
+
 }

@@ -92,6 +92,25 @@ public class DataService {
         return montarJSON;
     }
 
+    @RequestMapping()
+    public static ArrayList<ZonaBasicaSaludMayores60> enviarDatosActualizar60(@RequestBody ArrayList<ZonaBasicaSaludMayores60> montarJSON2) throws URISyntaxException, IOException, InterruptedException {
+        Gson g = new Gson();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPut request = new HttpPut(urlPrefix);
+        request.setHeader("Content-Type", "application/json");
+        request.setHeader("Accept", "application/json");
+        String jsonpasado = "[" + montarJSON2.get(0).mostrarJson() + "," + montarJSON2.get(1).mostrarJson() + "]";
+        System.out.println(jsonpasado);
+        StringEntity stringEntity = new StringEntity(jsonpasado);
+        request.setEntity(stringEntity);
+        CloseableHttpResponse response = httpClient.execute(request);
+        String respuestaActual = new BasicResponseHandler().handleResponse(response);
+
+        montarJSON2 = g.fromJson(respuestaActual, new TypeToken<ArrayList<ZonaBasicaSaludMayores60>>(){}.getType());
+
+        return montarJSON2;
+    }
+
     public static ArrayList<ZonaBasicaSalud> aniadirDatosLista(@RequestBody ZonaBasicaSalud zonaaniadir, ArrayList<ZonaBasicaSalud> listaDevuelta){
         Gson g = new Gson();
         CloseableHttpClient httpClient = HttpClients.createDefault();
