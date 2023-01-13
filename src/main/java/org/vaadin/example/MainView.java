@@ -84,8 +84,6 @@ public class MainView extends VerticalLayout{
         Tabs paginas = new Tabs(zonaBasica,zonaBasica60);
 
 
-
-
         VerticalLayout verticalLayout = new VerticalLayout();
         VerticalLayout verticalLayout2 = new VerticalLayout();
         HorizontalLayout horizontalLayout1 = new HorizontalLayout();
@@ -153,9 +151,9 @@ public class MainView extends VerticalLayout{
 
 
         verticalLayout.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout4);
-        verticalLayout2.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout5);
+        //verticalLayout2.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout5);
         dialog.add(verticalLayout);
-        dialog2.add(verticalLayout2);
+        //dialog2.add(verticalLayout2);
 
 
         // Generar la tabla con los campos arriba puestos.
@@ -272,6 +270,13 @@ public class MainView extends VerticalLayout{
         botonAniadir.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
+                texto1.setValue("");
+                texto2.setValue("");
+                texto3.setValue("");
+                texto4.setValue("");
+                texto5.setValue("");
+                texto6.setValue("");
+                texto7.setValue("");
                 dialog2.open();
 
             }
