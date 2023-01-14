@@ -92,6 +92,25 @@ public class DataService {
         return montarJSON;
     }
 
+    @RequestMapping()
+    public static ArrayList<ZonaBasicaSaludMayores60> enviarDatosActualizar60(@RequestBody ArrayList<ZonaBasicaSaludMayores60> montarJSON2) throws URISyntaxException, IOException, InterruptedException {
+        Gson g = new Gson();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpPut request = new HttpPut(urlPrefix2);
+        request.setHeader("Content-Type", "application/json");
+        request.setHeader("Accept", "application/json");
+        String jsonpasado = "[" + montarJSON2.get(0).mostrarJson() + "," + montarJSON2.get(1).mostrarJson() + "]";
+        System.out.println(jsonpasado);
+        StringEntity stringEntity = new StringEntity(jsonpasado);
+        request.setEntity(stringEntity);
+        CloseableHttpResponse response = httpClient.execute(request);
+        String respuestaActual = new BasicResponseHandler().handleResponse(response);
+
+        montarJSON2 = g.fromJson(respuestaActual, new TypeToken<ArrayList<ZonaBasicaSaludMayores60>>(){}.getType());
+
+        return montarJSON2;
+    }
+
     public static ArrayList<ZonaBasicaSalud> aniadirDatosLista(@RequestBody ZonaBasicaSalud zonaaniadir, ArrayList<ZonaBasicaSalud> listaDevuelta){
         Gson g = new Gson();
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -107,6 +126,35 @@ public class DataService {
             response = httpClient.execute(requestpuesta);
             String respuestaActual = new BasicResponseHandler().handleResponse(response);
             listaDevuelta = g.fromJson(respuestaActual, new TypeToken<ArrayList<ZonaBasicaSalud>>(){}.getType());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (HttpResponseException e) {
+            throw new RuntimeException(e);
+        } catch (ClientProtocolException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaDevuelta;
+    }
+
+    public static ArrayList<ZonaBasicaSaludMayores60> aniadirDatosLista60(@RequestBody ZonaBasicaSaludMayores60 zonaaniadir, ArrayList<ZonaBasicaSaludMayores60> listaDevuelta){
+        Gson g = new Gson();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String datospasar = zonaaniadir.mostrarJson();
+        System.out.println(datospasar);
+        StringEntity entidad = null;
+        try {
+            entidad = new StringEntity(datospasar);
+            HttpPost requestpuesta = new HttpPost(urlPrefix2);
+            requestpuesta.setHeader("Content-Type", "application/json");
+            requestpuesta.setHeader("Accept", "application/json");
+            requestpuesta.setEntity(entidad);
+            CloseableHttpResponse response = null;
+            response = httpClient.execute(requestpuesta);
+            String respuestaActual = new BasicResponseHandler().handleResponse(response);
+            listaDevuelta = g.fromJson(respuestaActual, new TypeToken<ArrayList<ZonaBasicaSaludMayores60>>(){}.getType());
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         } catch (HttpResponseException e) {
