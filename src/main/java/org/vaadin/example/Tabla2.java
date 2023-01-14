@@ -249,7 +249,10 @@ public class Tabla2 extends VerticalLayout {
         // Rellenar los modales con la informacion
         grid2.setSelectionMode(Grid.SelectionMode.SINGLE);
         grid2.setItems(listaPacientes2);
+
         this.add(grid2, horizontalLayoutAniadir);
+        this.setAlignItems(Alignment.CENTER);
+        this.setHeightFull();
 
         botonAniadir2.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
