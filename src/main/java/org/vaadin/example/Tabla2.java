@@ -103,9 +103,6 @@ public class Tabla2 extends VerticalLayout {
         horizontalLayout5.setWidth("100%");
         horizontalLayout5.setSpacing(false);
 
-        Label etiqueta6 = new Label("Codigo geometria");
-        TextField texto6 = new TextField();
-        texto6.setEnabled(false);
         Label etiqueta7 = new Label("Zona basica salud");
         TextField texto7 = new TextField();
         Label etiqueta8 = new Label("Tasa 14 dias");
@@ -114,10 +111,9 @@ public class Tabla2 extends VerticalLayout {
         TextField texto9 = new TextField();
         Label etiqueta10 = new Label("Fecha informe");
         TextField texto10 = new TextField();
-        horizontalLayout5.add(etiqueta6, texto6, etiqueta7, texto7);
+        horizontalLayout5.add(etiqueta7, texto7, etiqueta8, texto8);
         horizontalLayout5.setAlignItems(Alignment.CENTER);
-
-        horizontalLayout6.add(etiqueta8, texto8, etiqueta9, texto9);
+        horizontalLayout6.add(etiqueta9, texto9);
         horizontalLayout6.setAlignItems(Alignment.CENTER);
         horizontalLayout7.add(etiqueta10, texto10);
         horizontalLayout7.setAlignItems(Alignment.CENTER);
@@ -132,7 +128,11 @@ public class Tabla2 extends VerticalLayout {
         horizontalLayout8.setSpacing(false);
 
         verticalLayout.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout4);
+        verticalLayout.setSpacing(true);
+        verticalLayout.setAlignItems(Alignment.CENTER);
         verticalLayout2.add(horizontalLayout5, horizontalLayout6, horizontalLayout7, horizontalLayout8);
+        verticalLayout.setSpacing(true);
+        verticalLayout.setAlignItems(Alignment.CENTER);
         dialog.add(verticalLayout);
         dialog2.add(verticalLayout2);
 
@@ -254,7 +254,6 @@ public class Tabla2 extends VerticalLayout {
         botonAniadir2.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                texto6.setValue("");
                 texto7.setValue("");
                 texto8.setValue("");
                 texto9.setValue("");
@@ -281,7 +280,6 @@ public class Tabla2 extends VerticalLayout {
         boton4.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                texto6.setValue("");
                 texto7.setValue("");
                 texto8.setValue("");
                 texto9.setValue("");

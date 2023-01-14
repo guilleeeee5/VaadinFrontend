@@ -117,9 +117,7 @@ public class Tabla1 extends VerticalLayout {
         horizontalLayout5.setWidth("100%");
         horizontalLayout5.setSpacing(false);
 
-        Label etiqueta8 = new Label("Codigo geometria");
-        TextField texto8 = new TextField();
-        texto8.setEnabled(false);
+
         Label etiqueta9 = new Label("Zona basica salud");
         TextField texto9 = new TextField();
         Label etiqueta10 = new Label("Tasa 14 dias");
@@ -132,12 +130,12 @@ public class Tabla1 extends VerticalLayout {
         TextField texto13 = new TextField();
         Label etiqueta14 = new Label("Fecha informe");
         TextField texto14 = new TextField();
-        horizontalLayout5.add(etiqueta8, texto8, etiqueta9, texto9, etiqueta10, texto10);
+        horizontalLayout5.add(etiqueta9, texto9, etiqueta10, texto10);
         horizontalLayout5.setAlignItems(Alignment.CENTER);
 
-        horizontalLayout6.add(etiqueta11, texto11, etiqueta12, texto12, etiqueta13, texto13);
+        horizontalLayout6.add(etiqueta11, texto11, etiqueta12, texto12);
         horizontalLayout6.setAlignItems(Alignment.CENTER);
-        horizontalLayout7.add(etiqueta14, texto14);
+        horizontalLayout7.add(etiqueta13, texto13, etiqueta14, texto14);
         horizontalLayout7.setAlignItems(Alignment.CENTER);
         horizontalLayout7.setSpacing(false);
         horizontalLayout7.setAlignSelf(Alignment.CENTER);
