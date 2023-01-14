@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Tabla2 extends VerticalLayout {
     ArrayList<ZonaBasicaSaludMayores60> listaAuxiliar2 = new ArrayList<>();
@@ -287,7 +289,9 @@ public class Tabla2 extends VerticalLayout {
         boton3.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-
+                String fecha = texto10.getValue();
+                Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-8]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
+                Matcher matcher = pattern.matcher(fecha);
                 if(texto7.getValue().equals("")|| texto8.getValue().equals("")|| texto9.getValue().equals("")|| texto10.getValue().equals("")) {
                         Notification notification = new Notification();
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -306,6 +310,25 @@ public class Tabla2 extends VerticalLayout {
 
                         notification.add(layout);
                         notification.open();
+                }
+                else if(!matcher.find()){
+                    Notification notification = new Notification();
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+                    Div text = new Div(new Text("No se cumple el formato de la fecha pedida dd-mm-yyyy hh:mm:ss"));
+
+                    Button closeButton = new Button(new Icon("lumo", "cross"));
+                    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+                    closeButton.getElement().setAttribute("aria-label", "Close");
+                    closeButton.addClickListener(event2 -> {
+                        notification.close();
+                    });
+
+                    HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+                    layout.setAlignItems(Alignment.CENTER);
+
+                    notification.add(layout);
+                    notification.open();
                 }
                 else{
                     ZonaBasicaSaludMayores60 zonaBasicaSalud60;
