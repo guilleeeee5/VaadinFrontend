@@ -207,19 +207,12 @@ public class Tabla1 extends VerticalLayout {
         boton.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                ZonaBasicaSalud nuevodato = null;
-                try {
-                    nuevodato = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()), ZonaBasicaSalud.invertirFecha(texto7.getValue()));
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
 
-                if(antiguoDato.toString().equals(nuevodato.toString())){
-
+                if(texto2.getValue().equals("")|| texto3.getValue().equals("")|| texto4.getValue().equals("")|| texto5.getValue().equals("")|| texto6.getValue().equals("")|| texto7.getValue().equals("")){
                     Notification notification = new Notification();
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
 
-                    Div text = new Div(new Text("El elemento no se puede actualizar, es el mismo."));
+                    Div text = new Div(new Text("El elemento no se puede actualizar, hay campos vacios."));
 
                     Button closeButton = new Button(new Icon("lumo", "cross"));
                     closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
@@ -234,44 +227,55 @@ public class Tabla1 extends VerticalLayout {
                     notification.add(layout);
                     notification.open();
                 }
-                else if(texto1.getValue().equals("") || texto2.getValue().equals("")|| texto3.getValue().equals("")|| texto4.getValue().equals("")|| texto5.getValue().equals("")|| texto6.getValue().equals("")|| texto7.getValue().equals("")){
-                    Notification notification = new Notification();
-                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-
-                    Div text = new Div(new Text("Hay campos vacios dentro del dialogo, no se envian los datos"));
-
-                    Button closeButton = new Button(new Icon("lumo", "cross"));
-                    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-                    closeButton.getElement().setAttribute("aria-label", "Close");
-                    closeButton.addClickListener(event2 -> {
-                        notification.close();
-                    });
-
-                    HorizontalLayout layout = new HorizontalLayout(text, closeButton);
-                    layout.setAlignItems(Alignment.CENTER);
-
-                    notification.add(layout);
-                    notification.open();
-                }
-                else{
+                else {
+                    ZonaBasicaSalud nuevodato = null;
                     try {
-                        listaAuxiliar = new ArrayList<>();
-                        listaAuxiliar.add(antiguoDato);
-                        listaAuxiliar.add(nuevodato);
-                        listaPacientes = DataService.enviarDatosActualizar(listaAuxiliar);
-                    } catch (URISyntaxException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (InterruptedException e) {
+                        nuevodato = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()), ZonaBasicaSalud.invertirFecha(texto7.getValue()));
+                    } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
-                    Notification notification = Notification.show("Elemento cambiado con exito");
-                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
-                    grid.setItems(listaPacientes);
-                    dialog.close();
+                    if(antiguoDato.toString().equals(nuevodato.toString())){
 
+                        Notification notification = new Notification();
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+                        Div text = new Div(new Text("El elemento no se puede actualizar, es el mismo."));
+
+                        Button closeButton = new Button(new Icon("lumo", "cross"));
+                        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+                        closeButton.getElement().setAttribute("aria-label", "Close");
+                        closeButton.addClickListener(event2 -> {
+                            notification.close();
+                        });
+
+                        HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+                        layout.setAlignItems(Alignment.CENTER);
+
+                        notification.add(layout);
+                        notification.open();
+                    }
+
+                    else{
+                        try {
+                            listaAuxiliar = new ArrayList<>();
+                            listaAuxiliar.add(antiguoDato);
+                            listaAuxiliar.add(nuevodato);
+                            listaPacientes = DataService.enviarDatosActualizar(listaAuxiliar);
+                        } catch (URISyntaxException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        Notification notification = Notification.show("Elemento cambiado con exito");
+                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+
+                        grid.setItems(listaPacientes);
+                        dialog.close();
+
+                    }
                 }
             }
         });
@@ -301,39 +305,44 @@ public class Tabla1 extends VerticalLayout {
         boton3.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                if(texto2.getValue().equals("")|| texto3.getValue().equals("")|| texto4.getValue().equals("")|| texto5.getValue().equals("")|| texto6.getValue().equals("")|| texto7.getValue().equals("")){
-                    Notification notification = new Notification();
-                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                System.out.println("Campos elegidos: ");
+                System.out.println(texto9.getValue());
+                System.out.println(texto10.getValue());
+                System.out.println(texto11.getValue());
+                System.out.println(texto12.getValue());
+                System.out.println(texto13.getValue());
+                System.out.println(texto14.getValue());
+                    if(texto9.getValue().equals("") || texto10.getValue().equals("")|| texto11.getValue().equals("")|| texto12.getValue().equals("")|| texto13.getValue().equals("")|| texto14.getValue().equals("")){
+                        Notification notification = new Notification();
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
 
-                    Div text = new Div(new Text("Hay campos vacios dentro del dialogo, no se envian los datos"));
+                        Div text = new Div(new Text("Hay campos vacios dentro del dialogo, no se añaden los datos"));
 
-                    Button closeButton = new Button(new Icon("lumo", "cross"));
-                    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-                    closeButton.getElement().setAttribute("aria-label", "Close");
-                    closeButton.addClickListener(event2 -> {
-                        notification.close();
-                    });
+                        Button closeButton = new Button(new Icon("lumo", "cross"));
+                        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+                        closeButton.getElement().setAttribute("aria-label", "Close");
+                        closeButton.addClickListener(event2 -> {
+                            notification.close();
+                        });
 
-                    HorizontalLayout layout = new HorizontalLayout(text, closeButton);
-                    layout.setAlignItems(Alignment.CENTER);
+                        HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+                        layout.setAlignItems(Alignment.CENTER);
 
-                    notification.add(layout);
-                    notification.open();
-                }
-                else{
-                    ZonaBasicaSalud zonaBasicaSalud;
-                    try {
-                        zonaBasicaSalud = new ZonaBasicaSalud("", texto9.getValue(), Float.valueOf(texto10.getValue()), Float.valueOf(texto11.getValue()), Integer.valueOf(texto12.getValue()), Integer.valueOf(texto13.getValue()), ZonaBasicaSalud.invertirFecha(texto14.getValue()));
-                    } catch (ParseException e) {
-                        throw new RuntimeException(e);
+                        notification.add(layout);
+                        notification.open();
                     }
-                    listaPacientes = DataService.aniadirDatosLista(zonaBasicaSalud, listaPacientes);
-                    grid.setItems(listaPacientes);
-                    dialog2.close();
+                    else{
+                        ZonaBasicaSalud zonaBasicaSalud;
+                        try {
+                            zonaBasicaSalud = new ZonaBasicaSalud("", texto9.getValue(), Float.valueOf(texto10.getValue()), Float.valueOf(texto11.getValue()), Integer.valueOf(texto12.getValue()), Integer.valueOf(texto13.getValue()), ZonaBasicaSalud.invertirFecha(texto14.getValue()));
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
+                        }
+                        listaPacientes = DataService.aniadirDatosLista(zonaBasicaSalud, listaPacientes);
+                        grid.setItems(listaPacientes);
+                        dialog2.close();
+                    }
                 }
-
-
-            }
         });
 
         boton4.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
