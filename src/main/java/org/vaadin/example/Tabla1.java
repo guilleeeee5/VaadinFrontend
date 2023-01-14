@@ -238,7 +238,7 @@ public class Tabla1 extends VerticalLayout {
                     Notification notification = new Notification();
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
 
-                    Div text = new Div(new Text("Hay campos vacios dentro del dialogo, no se enviaan los datos"));
+                    Div text = new Div(new Text("Hay campos vacios dentro del dialogo, no se envian los datos"));
 
                     Button closeButton = new Button(new Icon("lumo", "cross"));
                     closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
@@ -301,15 +301,38 @@ public class Tabla1 extends VerticalLayout {
         boton3.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                ZonaBasicaSalud zonaBasicaSalud;
-                try {
-                    zonaBasicaSalud = new ZonaBasicaSalud("", texto9.getValue(), Float.valueOf(texto10.getValue()), Float.valueOf(texto11.getValue()), Integer.valueOf(texto12.getValue()), Integer.valueOf(texto13.getValue()), ZonaBasicaSalud.invertirFecha(texto14.getValue()));
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+                if(texto2.getValue().equals("")|| texto3.getValue().equals("")|| texto4.getValue().equals("")|| texto5.getValue().equals("")|| texto6.getValue().equals("")|| texto7.getValue().equals("")){
+                    Notification notification = new Notification();
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+                    Div text = new Div(new Text("Hay campos vacios dentro del dialogo, no se envian los datos"));
+
+                    Button closeButton = new Button(new Icon("lumo", "cross"));
+                    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+                    closeButton.getElement().setAttribute("aria-label", "Close");
+                    closeButton.addClickListener(event2 -> {
+                        notification.close();
+                    });
+
+                    HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+                    layout.setAlignItems(Alignment.CENTER);
+
+                    notification.add(layout);
+                    notification.open();
                 }
-                listaPacientes = DataService.aniadirDatosLista(zonaBasicaSalud, listaPacientes);
-                grid.setItems(listaPacientes);
-                dialog2.close();
+                else{
+                    ZonaBasicaSalud zonaBasicaSalud;
+                    try {
+                        zonaBasicaSalud = new ZonaBasicaSalud("", texto9.getValue(), Float.valueOf(texto10.getValue()), Float.valueOf(texto11.getValue()), Integer.valueOf(texto12.getValue()), Integer.valueOf(texto13.getValue()), ZonaBasicaSalud.invertirFecha(texto14.getValue()));
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    listaPacientes = DataService.aniadirDatosLista(zonaBasicaSalud, listaPacientes);
+                    grid.setItems(listaPacientes);
+                    dialog2.close();
+                }
+
+
             }
         });
 

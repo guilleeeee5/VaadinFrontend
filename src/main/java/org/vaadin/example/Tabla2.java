@@ -216,6 +216,25 @@ public class Tabla2 extends VerticalLayout {
                     notification.add(layout);
                     notification.open();
                 }
+                else if(texto1.getValue().equals("") || texto2.getValue().equals("")|| texto3.getValue().equals("")|| texto4.getValue().equals("")|| texto5.getValue().equals("")){
+                    Notification notification = new Notification();
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+                    Div text = new Div(new Text("Hay campos vacios dentro del dialogo, no se envian los datos"));
+
+                    Button closeButton = new Button(new Icon("lumo", "cross"));
+                    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+                    closeButton.getElement().setAttribute("aria-label", "Close");
+                    closeButton.addClickListener(event2 -> {
+                        notification.close();
+                    });
+
+                    HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+                    layout.setAlignItems(Alignment.CENTER);
+
+                    notification.add(layout);
+                    notification.open();
+                }
                 else{
                     try {
                         listaAuxiliar2 = new ArrayList<>();
@@ -268,15 +287,38 @@ public class Tabla2 extends VerticalLayout {
         boton3.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                ZonaBasicaSaludMayores60 zonaBasicaSalud60;
-                try {
-                    zonaBasicaSalud60 = new ZonaBasicaSaludMayores60("", texto7.getValue(), Float.valueOf(texto8.getValue()), Float.valueOf(texto9.getValue()), ZonaBasicaSalud.invertirFecha(texto10.getValue()));
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+
+                if(texto7.getValue().equals("")|| texto8.getValue().equals("")|| texto9.getValue().equals("")|| texto10.getValue().equals("")) {
+                        Notification notification = new Notification();
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+
+                        Div text = new Div(new Text("Hay campos vacios dentro del dialogo, no se envian los datos"));
+
+                        Button closeButton = new Button(new Icon("lumo", "cross"));
+                        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
+                        closeButton.getElement().setAttribute("aria-label", "Close");
+                        closeButton.addClickListener(event2 -> {
+                            notification.close();
+                        });
+
+                        HorizontalLayout layout = new HorizontalLayout(text, closeButton);
+                        layout.setAlignItems(Alignment.CENTER);
+
+                        notification.add(layout);
+                        notification.open();
                 }
-                listaPacientes2 = DataService.aniadirDatosLista60(zonaBasicaSalud60, listaPacientes2);
-                grid2.setItems(listaPacientes2);
-                dialog2.close();
+                else{
+                    ZonaBasicaSaludMayores60 zonaBasicaSalud60;
+                    try {
+                        zonaBasicaSalud60 = new ZonaBasicaSaludMayores60("", texto7.getValue(), Float.valueOf(texto8.getValue()), Float.valueOf(texto9.getValue()), ZonaBasicaSalud.invertirFecha(texto10.getValue()));
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    listaPacientes2 = DataService.aniadirDatosLista60(zonaBasicaSalud60, listaPacientes2);
+                    grid2.setItems(listaPacientes2);
+                    dialog2.close();
+                }
+
             }
         });
 
