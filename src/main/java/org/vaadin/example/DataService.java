@@ -139,5 +139,33 @@ public class DataService {
         return listaDevuelta;
     }
 
+    public static ArrayList<ZonaBasicaSaludMayores60> aniadirDatosLista(@RequestBody ZonaBasicaSaludMayores60 zonaaniadir, ArrayList<ZonaBasicaSaludMayores60> listaDevuelta){
+        Gson g = new Gson();
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String datospasar = zonaaniadir.mostrarJson();
+        StringEntity entidad = null;
+        try {
+            entidad = new StringEntity(datospasar);
+            HttpPost requestpuesta = new HttpPost(urlPrefix2);
+            requestpuesta.setHeader("Content-Type", "application/json");
+            requestpuesta.setHeader("Accept", "application/json");
+            requestpuesta.setEntity(entidad);
+            CloseableHttpResponse response = null;
+            response = httpClient.execute(requestpuesta);
+            String respuestaActual = new BasicResponseHandler().handleResponse(response);
+            listaDevuelta = g.fromJson(respuestaActual, new TypeToken<ArrayList<ZonaBasicaSaludMayores60>>(){}.getType());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        } catch (HttpResponseException e) {
+            throw new RuntimeException(e);
+        } catch (ClientProtocolException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return listaDevuelta;
+    }
+
 
 }
