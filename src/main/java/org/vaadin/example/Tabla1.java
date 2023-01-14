@@ -5,6 +5,7 @@ import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicReference;
@@ -51,10 +53,12 @@ public class Tabla1 extends VerticalLayout {
 
         VerticalLayout verticalLayout = new VerticalLayout();
         VerticalLayout verticalLayout2 = new VerticalLayout();
+
         HorizontalLayout horizontalLayout1 = new HorizontalLayout();
         HorizontalLayout horizontalLayout2 = new HorizontalLayout();
         HorizontalLayout horizontalLayout3 = new HorizontalLayout();
         HorizontalLayout horizontalLayout4 = new HorizontalLayout();
+
         HorizontalLayout horizontalLayout5 = new HorizontalLayout();
         HorizontalLayout horizontalLayout6 = new HorizontalLayout();
         HorizontalLayout horizontalLayout7 = new HorizontalLayout();
@@ -81,8 +85,9 @@ public class Tabla1 extends VerticalLayout {
         TextField texto5 = new TextField();
         Label etiqueta6 = new Label("Casos 14 dias");
         TextField texto6 = new TextField();
-        Label etiqueta7 = new Label("Fecha informe");
-        TextField texto7 = new TextField();
+        DatePicker datePicker = new DatePicker("Fecha informe");
+        datePicker.setPlaceholder("DD-MM-YYYY");
+        datePicker.setHelperText("Format type: DD-MM-YYYY");
 
         Button boton = new Button("Actualizar");
         Button boton2 = new Button("Cancelar");
@@ -99,7 +104,7 @@ public class Tabla1 extends VerticalLayout {
 
         horizontalLayout2.add(etiqueta4, texto4, etiqueta5, texto5, etiqueta6, texto6);
         horizontalLayout2.setAlignItems(Alignment.CENTER);
-        horizontalLayout3.add(etiqueta7, texto7);
+        horizontalLayout3.add(datePicker);
         horizontalLayout3.setAlignItems(Alignment.CENTER);
         horizontalLayout3.setSpacing(false);
         horizontalLayout3.setAlignSelf(Alignment.CENTER);
@@ -137,7 +142,7 @@ public class Tabla1 extends VerticalLayout {
         horizontalLayout6.setAlignItems(Alignment.CENTER);
         horizontalLayout7.add(etiqueta13, texto13, etiqueta14, texto14);
         horizontalLayout7.setAlignItems(Alignment.CENTER);
-        horizontalLayout7.setSpacing(false);
+        horizontalLayout7.setSpacing(true);
         horizontalLayout7.setAlignSelf(Alignment.CENTER);
         horizontalLayout7.setWidth("100%");
 
@@ -145,12 +150,14 @@ public class Tabla1 extends VerticalLayout {
         horizontalLayout8.setAlignItems(Alignment.CENTER);
         horizontalLayout8.setVerticalComponentAlignment(Alignment.CENTER);
         horizontalLayout8.setWidth("100%");
-        horizontalLayout8.setSpacing(false);
+        horizontalLayout8.setSpacing(true);
         verticalLayout2.add(horizontalLayout5, horizontalLayout6, horizontalLayout7, horizontalLayout8);
 
 
         verticalLayout.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout4);
+        verticalLayout.setSpacing(true);
         verticalLayout2.add(horizontalLayout5, horizontalLayout6, horizontalLayout7, horizontalLayout8);
+        verticalLayout2.setSpacing(true);
         dialog.add(verticalLayout);
         dialog2.add(verticalLayout2);
 
@@ -175,7 +182,7 @@ public class Tabla1 extends VerticalLayout {
         grid.addItemDoubleClickListener(event -> texto6.setValue(String.valueOf(event.getItem().getCasos_confirmados_ultimos_14dias())));
         grid.addItemDoubleClickListener(event -> {
             try {
-                texto7.setValue(String.valueOf(event.getItem().setFecha_bonita(event.getItem().getFecha_informe())));
+                datePicker.setValue(LocalDate.parse(String.valueOf(event.getItem().setFecha_bonita(event.getItem().getFecha_informe()))));
 
             } catch (ParseException e) {
                 throw new RuntimeException(e);
@@ -212,7 +219,7 @@ public class Tabla1 extends VerticalLayout {
             public void onComponentEvent(ClickEvent<Button> event) {
                 ZonaBasicaSalud nuevodato = null;
                 try {
-                    nuevodato = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()), ZonaBasicaSalud.invertirFecha(texto7.getValue()));
+                    nuevodato = new ZonaBasicaSalud(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()), Integer.valueOf(texto5.getValue()), Integer.valueOf(texto6.getValue()), ZonaBasicaSalud.invertirFecha(String.valueOf(datePicker.getValue())));
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
@@ -276,7 +283,7 @@ public class Tabla1 extends VerticalLayout {
                 texto4.setValue("");
                 texto5.setValue("");
                 texto6.setValue("");
-                texto7.setValue("");
+                datePicker.setValue(LocalDate.parse(""));
                 dialog2.open();
 
             }
@@ -306,7 +313,7 @@ public class Tabla1 extends VerticalLayout {
                 texto4.setValue("");
                 texto5.setValue("");
                 texto6.setValue("");
-                texto7.setValue("");
+                datePicker.setValue(LocalDate.parse(""));
             }
         });
         this.add(grid, horizontalLayoutAniadir);
