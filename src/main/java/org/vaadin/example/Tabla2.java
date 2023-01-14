@@ -28,8 +28,8 @@ public class Tabla2 extends VerticalLayout {
     public Tabla2(){
         ZonaBasicaSaludMayores60 antiguoDato = new ZonaBasicaSaludMayores60();
         HorizontalLayout horizontalLayoutAniadir = new HorizontalLayout();
-        Button botonAniadir = new Button("Añadir nuevo elemento");
-        horizontalLayoutAniadir.add(botonAniadir);
+        Button botonAniadir2 = new Button("Añadir nuevo elemento");
+        horizontalLayoutAniadir.add(botonAniadir2);
         Dialog dialog = new Dialog();
         dialog.setHeight("800");
         dialog.setWidth("300");
@@ -56,7 +56,7 @@ public class Tabla2 extends VerticalLayout {
         textomostrar.setValue("Añadir nuevo elemento ");
         textomostrar.setEnabled(false);
 
-        horizontalLayoutAniadir.add(botonAniadir);
+        horizontalLayoutAniadir.add(botonAniadir2);
 
         Label etiqueta1 = new Label("Codigo geometria");
         TextField texto1 = new TextField();
@@ -105,7 +105,7 @@ public class Tabla2 extends VerticalLayout {
 
         Label etiqueta6 = new Label("Codigo geometria");
         TextField texto6 = new TextField();
-        texto1.setEnabled(false);
+        texto6.setEnabled(false);
         Label etiqueta7 = new Label("Zona basica salud");
         TextField texto7 = new TextField();
         Label etiqueta8 = new Label("Tasa 14 dias");
@@ -178,7 +178,7 @@ public class Tabla2 extends VerticalLayout {
         });
 
         grid2.addItemDoubleClickListener(event -> dialog.open());
-        botonAniadir.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+        botonAniadir2.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
                 
@@ -250,5 +250,43 @@ public class Tabla2 extends VerticalLayout {
         grid2.setSelectionMode(Grid.SelectionMode.SINGLE);
         grid2.setItems(listaPacientes2);
         this.add(grid2, horizontalLayoutAniadir);
+
+        botonAniadir2.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+            @Override
+            public void onComponentEvent(ClickEvent<Button> event) {
+                texto6.setValue("");
+                texto7.setValue("");
+                texto8.setValue("");
+                texto9.setValue("");
+                texto10.setValue("");
+                dialog2.open();
+
+            }
+        });
+        boton3.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+            @Override
+            public void onComponentEvent(ClickEvent<Button> event) {
+                ZonaBasicaSaludMayores60 zonaBasicaSalud60;
+                try {
+                    zonaBasicaSalud60 = new ZonaBasicaSaludMayores60("", texto7.getValue(), Float.valueOf(texto8.getValue()), Float.valueOf(texto9.getValue()), ZonaBasicaSalud.invertirFecha(texto10.getValue()));
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                listaPacientes2 = DataService.aniadirDatosLista60(zonaBasicaSalud60, listaPacientes2);
+                grid2.setItems(listaPacientes2);
+                dialog2.close();
+            }
+        });
+
+        boton4.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
+            @Override
+            public void onComponentEvent(ClickEvent<Button> event) {
+                texto6.setValue("");
+                texto7.setValue("");
+                texto8.setValue("");
+                texto9.setValue("");
+                texto10.setValue("");
+            }
+        });
     }
 }

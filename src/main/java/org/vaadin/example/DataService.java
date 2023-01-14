@@ -139,10 +139,11 @@ public class DataService {
         return listaDevuelta;
     }
 
-    public static ArrayList<ZonaBasicaSaludMayores60> aniadirDatosLista(@RequestBody ZonaBasicaSaludMayores60 zonaaniadir, ArrayList<ZonaBasicaSaludMayores60> listaDevuelta){
+    public static ArrayList<ZonaBasicaSaludMayores60> aniadirDatosLista60(@RequestBody ZonaBasicaSaludMayores60 zonaaniadir, ArrayList<ZonaBasicaSaludMayores60> listaDevuelta){
         Gson g = new Gson();
         CloseableHttpClient httpClient = HttpClients.createDefault();
         String datospasar = zonaaniadir.mostrarJson();
+        System.out.println(datospasar);
         StringEntity entidad = null;
         try {
             entidad = new StringEntity(datospasar);
