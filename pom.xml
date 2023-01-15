@@ -6,7 +6,7 @@
     <groupId>com.example</groupId>
     <artifactId>spring-skeleton</artifactId>
     <name>Project base for Spring Boot and Vaadin Flow</name>
-    <version>0.4</version>
+    <version>0.5</version>
     <packaging>jar</packaging>
 
     <properties>

@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Tabla2 extends VerticalLayout {
     ArrayList<ZonaBasicaSaludMayores60> listaAuxiliar2 = new ArrayList<>();
@@ -55,8 +57,6 @@ public class Tabla2 extends VerticalLayout {
         TextField textomostrar = new TextField();
         textomostrar.setValue("Añadir nuevo elemento ");
         textomostrar.setEnabled(false);
-
-        horizontalLayoutAniadir.add(botonAniadir2);
 
         Label etiqueta1 = new Label("Codigo geometria");
         TextField texto1 = new TextField();
@@ -103,9 +103,6 @@ public class Tabla2 extends VerticalLayout {
         horizontalLayout5.setWidth("100%");
         horizontalLayout5.setSpacing(false);
 
-        Label etiqueta6 = new Label("Codigo geometria");
-        TextField texto6 = new TextField();
-        texto6.setEnabled(false);
         Label etiqueta7 = new Label("Zona basica salud");
         TextField texto7 = new TextField();
         Label etiqueta8 = new Label("Tasa 14 dias");
@@ -114,12 +111,12 @@ public class Tabla2 extends VerticalLayout {
         TextField texto9 = new TextField();
         Label etiqueta10 = new Label("Fecha informe");
         TextField texto10 = new TextField();
-        horizontalLayout5.add(etiqueta6, texto6, etiqueta7, texto7);
-        horizontalLayout5.setAlignItems(Alignment.CENTER);
 
-        horizontalLayout6.add(etiqueta8, texto8, etiqueta9, texto9);
+        horizontalLayout5.add(etiqueta7, texto7, etiqueta8, texto8);
+        horizontalLayout5.setAlignItems(Alignment.CENTER);
+        horizontalLayout6.add(etiqueta9, texto9, etiqueta10, texto10);
         horizontalLayout6.setAlignItems(Alignment.CENTER);
-        horizontalLayout7.add(etiqueta10, texto10);
+        horizontalLayout7.add();
         horizontalLayout7.setAlignItems(Alignment.CENTER);
         horizontalLayout7.setSpacing(false);
         horizontalLayout7.setAlignSelf(Alignment.CENTER);
@@ -132,7 +129,11 @@ public class Tabla2 extends VerticalLayout {
         horizontalLayout8.setSpacing(false);
 
         verticalLayout.add(horizontalLayout1, horizontalLayout2, horizontalLayout3, horizontalLayout4);
+        verticalLayout.setSpacing(true);
+        verticalLayout.setAlignItems(Alignment.CENTER);
         verticalLayout2.add(horizontalLayout5, horizontalLayout6, horizontalLayout7, horizontalLayout8);
+        verticalLayout.setSpacing(true);
+        verticalLayout.setAlignItems(Alignment.CENTER);
         dialog.add(verticalLayout);
         dialog2.add(verticalLayout2);
 
@@ -181,61 +182,67 @@ public class Tabla2 extends VerticalLayout {
         botonAniadir2.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                
-
+                texto7.setValue("");
+                texto8.setValue("");
+                texto9.setValue("");
+                texto10.setValue("");
+                dialog2.open();
             }
         });
 
         boton5.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
+                String fecha = texto5.getValue();
+                System.out.println("Fecha mostrada: "+fecha);
+                System.out.println("hola");
+                Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-8]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
+                Matcher matcher = pattern.matcher(fecha);
                 ZonaBasicaSaludMayores60 nuevodato = null;
-                try {
-                    nuevodato = new ZonaBasicaSaludMayores60(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()),ZonaBasicaSaludMayores60.invertirFecha(texto5.getValue()));
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
 
-                if(antiguoDato.toString().equals(nuevodato.toString())){
 
-                    Notification notification = new Notification();
+                if(texto1.getValue().equals("") || texto2.getValue().equals("") || texto3.getValue().equals("") || texto4.getValue().equals("") || texto5.getValue().equals("")){
+                    Notification notification = Notification.show("No se puede actualizar el elemento, campos vacios");
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-
-                    Div text = new Div(new Text("El elemento no se puede actualizar, es el mismo."));
-
-                    Button closeButton = new Button(new Icon("lumo", "cross"));
-                    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-                    closeButton.getElement().setAttribute("aria-label", "Close");
-                    closeButton.addClickListener(event2 -> {
-                        notification.close();
-                    });
-
-                    HorizontalLayout layout = new HorizontalLayout(text, closeButton);
-                    layout.setAlignItems(Alignment.CENTER);
-
-                    notification.add(layout);
-                    notification.open();
+                }
+                else if (!matcher.find()){
+                    Notification notification = Notification.show("La fecha no esta escrita en el formato correcto.");
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 }
                 else{
                     try {
-                        listaAuxiliar2 = new ArrayList<>();
-                        listaAuxiliar2.add(antiguoDato);
-                        listaAuxiliar2.add(nuevodato);
-                        listaPacientes2 = DataService.enviarDatosActualizar60(listaAuxiliar2);
-                    } catch (URISyntaxException e) {
-                        throw new RuntimeException(e);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (InterruptedException e) {
+                        nuevodato = new ZonaBasicaSaludMayores60(texto1.getValue(), texto2.getValue(), Float.valueOf(texto3.getValue()), Float.valueOf(texto4.getValue()),ZonaBasicaSaludMayores60.invertirFecha(texto5.getValue()));
+                    } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
-                    Notification notification = Notification.show("Elemento cambiado con exito");
-                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
-                    grid2.setItems(listaPacientes2);
-                    dialog.close();
+                    if(antiguoDato.toString().equals(nuevodato.toString())){
+                        Notification notification = Notification.show("El elemento es el mismo");
+                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                    }
+                    else{
+                        try {
+                            listaAuxiliar2 = new ArrayList<>();
+                            listaAuxiliar2.add(antiguoDato);
+                            listaAuxiliar2.add(nuevodato);
+                            listaPacientes2 = DataService.enviarDatosActualizar60(listaAuxiliar2);
+                        } catch (URISyntaxException e) {
+                            throw new RuntimeException(e);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        Notification notification = Notification.show("Elemento cambiado con exito");
+                        notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
 
+                        grid2.setItems(listaPacientes2);
+                        dialog.close();
+
+                    }
                 }
+
+
             }
         });
 
@@ -249,39 +256,45 @@ public class Tabla2 extends VerticalLayout {
         // Rellenar los modales con la informacion
         grid2.setSelectionMode(Grid.SelectionMode.SINGLE);
         grid2.setItems(listaPacientes2);
+
         this.add(grid2, horizontalLayoutAniadir);
+        this.setAlignItems(Alignment.CENTER);
+        this.setHeightFull();
 
-        botonAniadir2.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
-            @Override
-            public void onComponentEvent(ClickEvent<Button> event) {
-                texto6.setValue("");
-                texto7.setValue("");
-                texto8.setValue("");
-                texto9.setValue("");
-                texto10.setValue("");
-                dialog2.open();
-
-            }
-        });
         boton3.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                ZonaBasicaSaludMayores60 zonaBasicaSalud60;
-                try {
-                    zonaBasicaSalud60 = new ZonaBasicaSaludMayores60("", texto7.getValue(), Float.valueOf(texto8.getValue()), Float.valueOf(texto9.getValue()), ZonaBasicaSalud.invertirFecha(texto10.getValue()));
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
+                String fecha = texto10.getValue();
+                Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-8]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
+                Matcher matcher = pattern.matcher(fecha);
+                ZonaBasicaSaludMayores60 zonaBasicaSalud60 = null;
+                if(texto7.getValue().equals("")|| texto8.getValue().equals("")|| texto9.getValue().equals("")|| texto10.getValue().equals("")) {
+                    Notification notification = Notification.show("Hay campos vacios en el dialogo");
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 }
-                listaPacientes2 = DataService.aniadirDatosLista60(zonaBasicaSalud60, listaPacientes2);
-                grid2.setItems(listaPacientes2);
-                dialog2.close();
+                else if(!matcher.find()){
+                    Notification notification = Notification.show("La fecha no esta escrita en el formato correcto.");
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+                }
+                else{
+                    try {
+                        zonaBasicaSalud60 = new ZonaBasicaSaludMayores60("", texto7.getValue(), Float.valueOf(texto8.getValue()), Float.valueOf(texto9.getValue()), ZonaBasicaSalud.invertirFecha(texto10.getValue()));
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    Notification notification = Notification.show("Elemento añadido con exito");
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
+                    listaPacientes2 = DataService.aniadirDatosLista60(zonaBasicaSalud60, listaPacientes2);
+                    grid2.setItems(listaPacientes2);
+                    dialog2.close();
+                }
+
             }
         });
 
         boton4.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                texto6.setValue("");
                 texto7.setValue("");
                 texto8.setValue("");
                 texto9.setValue("");
