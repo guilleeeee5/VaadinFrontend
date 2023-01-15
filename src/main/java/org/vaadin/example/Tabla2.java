@@ -197,6 +197,7 @@ public class Tabla2 extends VerticalLayout {
                 Matcher matcher = pattern.matcher(fecha);
                 ZonaBasicaSaludMayores60 nuevodato = null;
 
+
                 if(texto1.getValue().equals("") || texto2.getValue().equals("") || texto3.getValue().equals("") || texto4.getValue().equals("") || texto5.getValue().equals("")){
                     Notification notification = new Notification();
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -301,13 +302,14 @@ public class Tabla2 extends VerticalLayout {
         this.add(grid2, horizontalLayoutAniadir);
         this.setAlignItems(Alignment.CENTER);
         this.setHeightFull();
-        
+
         boton3.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
                 String fecha = texto10.getValue();
                 Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-8]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
                 Matcher matcher = pattern.matcher(fecha);
+                ZonaBasicaSaludMayores60 zonaBasicaSalud60 = null;
                 if(texto7.getValue().equals("")|| texto8.getValue().equals("")|| texto9.getValue().equals("")|| texto10.getValue().equals("")) {
                         Notification notification = new Notification();
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
@@ -347,7 +349,7 @@ public class Tabla2 extends VerticalLayout {
                     notification.open();
                 }
                 else{
-                    ZonaBasicaSaludMayores60 zonaBasicaSalud60;
+
                     try {
                         zonaBasicaSalud60 = new ZonaBasicaSaludMayores60("", texto7.getValue(), Float.valueOf(texto8.getValue()), Float.valueOf(texto9.getValue()), ZonaBasicaSalud.invertirFecha(texto10.getValue()));
                     } catch (ParseException e) {
