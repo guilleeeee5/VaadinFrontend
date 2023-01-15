@@ -111,11 +111,12 @@ public class Tabla2 extends VerticalLayout {
         TextField texto9 = new TextField();
         Label etiqueta10 = new Label("Fecha informe");
         TextField texto10 = new TextField();
+
         horizontalLayout5.add(etiqueta7, texto7, etiqueta8, texto8);
         horizontalLayout5.setAlignItems(Alignment.CENTER);
-        horizontalLayout6.add(etiqueta9, texto9);
+        horizontalLayout6.add(etiqueta9, texto9, etiqueta10, texto10);
         horizontalLayout6.setAlignItems(Alignment.CENTER);
-        horizontalLayout7.add(etiqueta10, texto10);
+        horizontalLayout7.add();
         horizontalLayout7.setAlignItems(Alignment.CENTER);
         horizontalLayout7.setSpacing(false);
         horizontalLayout7.setAlignSelf(Alignment.CENTER);
@@ -192,49 +193,21 @@ public class Tabla2 extends VerticalLayout {
         boton5.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                String fecha = texto10.getValue();
+                String fecha = texto5.getValue();
+                System.out.println("Fecha mostrada: "+fecha);
+                System.out.println("hola");
                 Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-8]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
                 Matcher matcher = pattern.matcher(fecha);
                 ZonaBasicaSaludMayores60 nuevodato = null;
 
 
                 if(texto1.getValue().equals("") || texto2.getValue().equals("") || texto3.getValue().equals("") || texto4.getValue().equals("") || texto5.getValue().equals("")){
-                    Notification notification = new Notification();
+                    Notification notification = Notification.show("No se puede actualizar el elemento, campos vacios");
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-
-                    Div text = new Div(new Text("El elemento no se puede actualizar, hay campos vacios."));
-
-                    Button closeButton = new Button(new Icon("lumo", "cross"));
-                    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-                    closeButton.getElement().setAttribute("aria-label", "Close");
-                    closeButton.addClickListener(event2 -> {
-                        notification.close();
-                    });
-
-                    HorizontalLayout layout = new HorizontalLayout(text, closeButton);
-                    layout.setAlignItems(Alignment.CENTER);
-
-                    notification.add(layout);
-                    notification.open();
                 }
                 else if (!matcher.find()){
-                    Notification notification = new Notification();
+                    Notification notification = Notification.show("La fecha no esta escrita en el formato correcto.");
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-
-                    Div text = new Div(new Text("No se cumple el formato de la fecha pedida dd-mm-yyyy hh:mm:ss"));
-
-                    Button closeButton = new Button(new Icon("lumo", "cross"));
-                    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-                    closeButton.getElement().setAttribute("aria-label", "Close");
-                    closeButton.addClickListener(event2 -> {
-                        notification.close();
-                    });
-
-                    HorizontalLayout layout = new HorizontalLayout(text, closeButton);
-                    layout.setAlignItems(Alignment.CENTER);
-
-                    notification.add(layout);
-                    notification.open();
                 }
                 else{
                     try {
@@ -244,23 +217,8 @@ public class Tabla2 extends VerticalLayout {
                     }
 
                     if(antiguoDato.toString().equals(nuevodato.toString())){
-                        Notification notification = new Notification();
+                        Notification notification = Notification.show("El elemento es el mismo");
                         notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-
-                        Div text = new Div(new Text("El elemento no se puede actualizar, es el mismo."));
-
-                        Button closeButton = new Button(new Icon("lumo", "cross"));
-                        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-                        closeButton.getElement().setAttribute("aria-label", "Close");
-                        closeButton.addClickListener(event2 -> {
-                            notification.close();
-                        });
-
-                        HorizontalLayout layout = new HorizontalLayout(text, closeButton);
-                        layout.setAlignItems(Alignment.CENTER);
-
-                        notification.add(layout);
-                        notification.open();
                     }
                     else{
                         try {
@@ -311,50 +269,21 @@ public class Tabla2 extends VerticalLayout {
                 Matcher matcher = pattern.matcher(fecha);
                 ZonaBasicaSaludMayores60 zonaBasicaSalud60 = null;
                 if(texto7.getValue().equals("")|| texto8.getValue().equals("")|| texto9.getValue().equals("")|| texto10.getValue().equals("")) {
-                        Notification notification = new Notification();
-                        notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-
-                        Div text = new Div(new Text("Hay campos vacios dentro del dialogo, no se envian los datos"));
-
-                        Button closeButton = new Button(new Icon("lumo", "cross"));
-                        closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-                        closeButton.getElement().setAttribute("aria-label", "Close");
-                        closeButton.addClickListener(event2 -> {
-                            notification.close();
-                        });
-
-                        HorizontalLayout layout = new HorizontalLayout(text, closeButton);
-                        layout.setAlignItems(Alignment.CENTER);
-
-                        notification.add(layout);
-                        notification.open();
+                    Notification notification = Notification.show("Hay campos vacios en el dialogo");
+                    notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 }
                 else if(!matcher.find()){
-                    Notification notification = new Notification();
+                    Notification notification = Notification.show("La fecha no esta escrita en el formato correcto.");
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
-
-                    Div text = new Div(new Text("No se cumple el formato de la fecha pedida dd-mm-yyyy hh:mm:ss"));
-
-                    Button closeButton = new Button(new Icon("lumo", "cross"));
-                    closeButton.addThemeVariants(ButtonVariant.LUMO_TERTIARY_INLINE);
-                    closeButton.getElement().setAttribute("aria-label", "Close");
-                    closeButton.addClickListener(event2 -> {
-                        notification.close();
-                    });
-
-                    HorizontalLayout layout = new HorizontalLayout(text, closeButton);
-                    layout.setAlignItems(Alignment.CENTER);
-
-                    notification.add(layout);
-                    notification.open();
                 }
                 else{
-
                     try {
                         zonaBasicaSalud60 = new ZonaBasicaSaludMayores60("", texto7.getValue(), Float.valueOf(texto8.getValue()), Float.valueOf(texto9.getValue()), ZonaBasicaSalud.invertirFecha(texto10.getValue()));
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
+                    Notification notification = Notification.show("Elemento añadido con exito");
+                    notification.addThemeVariants(NotificationVariant.LUMO_SUCCESS);
                     listaPacientes2 = DataService.aniadirDatosLista60(zonaBasicaSalud60, listaPacientes2);
                     grid2.setItems(listaPacientes2);
                     dialog2.close();
