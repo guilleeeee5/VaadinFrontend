@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class DataService {
-    private static final String urlPrefix = "http://localhost:8080/ZonaBasicaSalud";
-    private static final String urlPrefix2 = "http://localhost:8080/ZonaBasicaSaludMayores60";
+    private static final String urlPrefix = "http://backend:8080/ZonaBasicaSalud";
+    private static final String urlPrefix2 = "http://backend:8080/ZonaBasicaSaludMayores60";
 
     public static ArrayList<ZonaBasicaSalud> getTodasPersonas(ArrayList<ZonaBasicaSalud> listaPacientes) throws URISyntaxException {
 
