@@ -1,5 +1,5 @@
 # Frontend Practica 2 DIS
-## Version 0.5, realizada por:
+## Version 1.0, realizada por:
 :bust_in_silhouette: Pedro José Paniagua Falo <br>
 :bust_in_silhouette: Julián Prieto Velasco <br>
 :bust_in_silhouette: Julian Manuel García Baena <br>
