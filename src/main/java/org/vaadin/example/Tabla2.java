@@ -111,6 +111,7 @@ public class Tabla2 extends VerticalLayout {
         TextField texto9 = new TextField();
         Label etiqueta10 = new Label("Fecha informe");
         TextField texto10 = new TextField();
+
         horizontalLayout5.add(etiqueta7, texto7, etiqueta8, texto8);
         horizontalLayout5.setAlignItems(Alignment.CENTER);
         horizontalLayout6.add(etiqueta9, texto9, etiqueta10, texto10);
@@ -192,8 +193,8 @@ public class Tabla2 extends VerticalLayout {
         boton5.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                String fecha = texto10.getValue();
-                System.out.println(fecha);
+                String fecha = texto5.getValue();
+                System.out.println("Fecha mostrada: "+fecha);
                 System.out.println("hola");
                 Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-8]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
                 Matcher matcher = pattern.matcher(fecha);
@@ -276,7 +277,6 @@ public class Tabla2 extends VerticalLayout {
                     notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
                 }
                 else{
-
                     try {
                         zonaBasicaSalud60 = new ZonaBasicaSaludMayores60("", texto7.getValue(), Float.valueOf(texto8.getValue()), Float.valueOf(texto9.getValue()), ZonaBasicaSalud.invertirFecha(texto10.getValue()));
                     } catch (ParseException e) {
