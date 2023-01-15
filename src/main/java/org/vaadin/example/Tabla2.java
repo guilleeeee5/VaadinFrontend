@@ -113,9 +113,9 @@ public class Tabla2 extends VerticalLayout {
         TextField texto10 = new TextField();
         horizontalLayout5.add(etiqueta7, texto7, etiqueta8, texto8);
         horizontalLayout5.setAlignItems(Alignment.CENTER);
-        horizontalLayout6.add(etiqueta9, texto9);
+        horizontalLayout6.add(etiqueta9, texto9, etiqueta10, texto10);
         horizontalLayout6.setAlignItems(Alignment.CENTER);
-        horizontalLayout7.add(etiqueta10, texto10);
+        horizontalLayout7.add();
         horizontalLayout7.setAlignItems(Alignment.CENTER);
         horizontalLayout7.setSpacing(false);
         horizontalLayout7.setAlignSelf(Alignment.CENTER);
