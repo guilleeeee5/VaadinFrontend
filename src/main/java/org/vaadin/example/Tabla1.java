@@ -272,13 +272,12 @@ public class Tabla1 extends VerticalLayout {
         botonAniadir.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                texto1.setValue("");
-                texto2.setValue("");
-                texto3.setValue("");
-                texto4.setValue("");
-                texto5.setValue("");
-                texto6.setValue("");
-                texto7.setValue("");
+                texto9.setValue("");
+                texto10.setValue("");
+                texto11.setValue("");
+                texto12.setValue("");
+                texto13.setValue("");
+                texto14.setValue("");
                 dialog2.open();
 
             }
@@ -318,13 +317,12 @@ public class Tabla1 extends VerticalLayout {
         boton4.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                texto1.setValue("");
-                texto2.setValue("");
-                texto3.setValue("");
-                texto4.setValue("");
-                texto5.setValue("");
-                texto6.setValue("");
-                texto7.setValue("");
+                texto9.setValue("");
+                texto10.setValue("");
+                texto11.setValue("");
+                texto12.setValue("");
+                texto13.setValue("");
+                texto14.setValue("");
             }
         });
         this.setAlignItems(Alignment.CENTER);
