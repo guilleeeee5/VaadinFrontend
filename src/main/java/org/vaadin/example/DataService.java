@@ -81,7 +81,6 @@ public class DataService {
         request.setHeader("Content-Type", "application/json");
         request.setHeader("Accept", "application/json");
         String jsonpasado = "[" + montarJSON.get(0).mostrarJson() + "," + montarJSON.get(1).mostrarJson() + "]";
-        System.out.println(jsonpasado);
         StringEntity stringEntity = new StringEntity(jsonpasado);
         request.setEntity(stringEntity);
         CloseableHttpResponse response = httpClient.execute(request);
@@ -100,7 +99,6 @@ public class DataService {
         request.setHeader("Content-Type", "application/json");
         request.setHeader("Accept", "application/json");
         String jsonpasado = "[" + montarJSON2.get(0).mostrarJson() + "," + montarJSON2.get(1).mostrarJson() + "]";
-        System.out.println(jsonpasado);
         StringEntity stringEntity = new StringEntity(jsonpasado);
         request.setEntity(stringEntity);
         CloseableHttpResponse response = httpClient.execute(request);
@@ -143,7 +141,6 @@ public class DataService {
         Gson g = new Gson();
         CloseableHttpClient httpClient = HttpClients.createDefault();
         String datospasar = zonaaniadir.mostrarJson();
-        System.out.println(datospasar);
         StringEntity entidad = null;
         try {
             entidad = new StringEntity(datospasar);
