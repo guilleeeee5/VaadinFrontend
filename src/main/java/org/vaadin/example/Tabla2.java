@@ -194,7 +194,7 @@ public class Tabla2 extends VerticalLayout {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
                 String fecha = texto5.getValue();
-                Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-8]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
+                Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-9]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
                 Matcher matcher = pattern.matcher(fecha);
                 ZonaBasicaSaludMayores60 nuevodato = null;
 
@@ -263,7 +263,7 @@ public class Tabla2 extends VerticalLayout {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
                 String fecha = texto10.getValue();
-                Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-8]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
+                Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-9]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
                 Matcher matcher = pattern.matcher(fecha);
                 ZonaBasicaSaludMayores60 zonaBasicaSalud60 = null;
                 if(texto7.getValue().equals("")|| texto8.getValue().equals("")|| texto9.getValue().equals("")|| texto10.getValue().equals("")) {
