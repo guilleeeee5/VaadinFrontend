@@ -212,7 +212,7 @@ public class Tabla1 extends VerticalLayout {
             public void onComponentEvent(ClickEvent<Button> event) {
 
                 String fecha = texto7.getValue();
-                Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-8]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
+                Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-9]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
                 Matcher matcher = pattern.matcher(fecha);
 
                 if(texto2.getValue().equals("")|| texto3.getValue().equals("")|| texto4.getValue().equals("")|| texto5.getValue().equals("")|| texto6.getValue().equals("")|| texto7.getValue().equals("")){
@@ -272,13 +272,12 @@ public class Tabla1 extends VerticalLayout {
         botonAniadir.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                texto1.setValue("");
-                texto2.setValue("");
-                texto3.setValue("");
-                texto4.setValue("");
-                texto5.setValue("");
-                texto6.setValue("");
-                texto7.setValue("");
+                texto9.setValue("");
+                texto10.setValue("");
+                texto11.setValue("");
+                texto12.setValue("");
+                texto13.setValue("");
+                texto14.setValue("");
                 dialog2.open();
 
             }
@@ -288,7 +287,7 @@ public class Tabla1 extends VerticalLayout {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
                 String fecha = texto14.getValue();
-                Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-8]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
+                Pattern pattern = Pattern.compile("^(0[1-9]|1\\d|2[0-9]|29(?=-\\d\\d-(?!1[01345789]00|2[1235679]00)\\d\\d(?:[02468][048]|[13579][26]))|30(?!-02)|31(?=-0[13578]|-1[02]))-(0[1-9]|1[0-2])-([12]\\d{3}) ([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)");
                 Matcher matcher = pattern.matcher(fecha);
                     if(texto9.getValue().equals("") || texto10.getValue().equals("")|| texto11.getValue().equals("")|| texto12.getValue().equals("")|| texto13.getValue().equals("")|| texto14.getValue().equals("")){
                         Notification notification = Notification.show("Campos vacios");
@@ -318,13 +317,12 @@ public class Tabla1 extends VerticalLayout {
         boton4.addClickListener(new ComponentEventListener<ClickEvent<Button>>() {
             @Override
             public void onComponentEvent(ClickEvent<Button> event) {
-                texto1.setValue("");
-                texto2.setValue("");
-                texto3.setValue("");
-                texto4.setValue("");
-                texto5.setValue("");
-                texto6.setValue("");
-                texto7.setValue("");
+                texto9.setValue("");
+                texto10.setValue("");
+                texto11.setValue("");
+                texto12.setValue("");
+                texto13.setValue("");
+                texto14.setValue("");
             }
         });
         this.setAlignItems(Alignment.CENTER);
